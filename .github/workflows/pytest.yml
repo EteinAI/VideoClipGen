@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
@@ -19,11 +19,19 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # The values for these variables are taken from GitHub Secrets
+    env:
+      ALI_ACCESSKEY_ID: ${{ secrets.ALI_ACCESSKEY_ID }}
+      ALI_ACCESSKEY_SECRET: ${{ secrets.ALI_ACCESSKEY_SECRET }}
+      ALI_APP_KEY: ${{ secrets.ALI_APP_KEY }}
+      PROXY_API_KEY: ${{ secrets.PROXY_API_KEY }}
+
     strategy:
       # You can use PyPy versions in python-version.
       # For example, pypy-2.7 and pypy-3.8
       matrix:
-        python-version: ["3.11", "3.10"]
+        python-version: ["3.11"]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -31,15 +39,64 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Restore pip cache
+        uses: actions/cache@v3
+        with:
+          path: "~/.cache/pip"
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Pull data
+        run: |
+          echo "TODO: data management"
+
       - name: Run tests with pytest
-        run: pytest tests
+        run: |
+          pytest --cov-report html --cov-report term --cov=vcg tests
+          python scripts/coverage_badge.py --file-path ${GITHUB_WORKSPACE}/htmlcov/badge-info.json
+        env:
+          ALI_ACCESSKEY_ID: ${{ secrets.ALI_ACCESSKEY_ID }}
+          ALI_ACCESSKEY_SECRET: ${{ secrets.ALI_ACCESSKEY_SECRET }}
+          ALI_APP_KEY: ${{ secrets.ALI_APP_KEY }}
+          PROXY_API_KEY: ${{ secrets.PROXY_API_KEY }}
+
+      - if: ${{ matrix.python-version == '3.11' }}
+        name: Get coverage badge file name
+        run: |
+          # var REF = 'refs/pull/27/merge.json';
+          REF=${{ github.ref }}
+          # console.log('github.ref: ' + REF);
+          echo "github.ref: $REF"
+          # var PATHS = REF.split('/');
+          IFS='/' read -ra PATHS <<< "$REF"
+          # var BRANCH_NAME = PATHS[1] + '_' + PATHS[2];
+          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          # console.log(BRANCH_NAME); // 'pull_27'
+          echo $BRANCH_NAME
+          # process.env.BRANCH = 'pull_27';
+          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+
+      - if: ${{ matrix.python-version == '3.11' }}
+        name: Upload coverage badge to gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_SECRET }}
+          gist_id: d2252855dcf797fe1d205982bef0c9be
+          file_path: htmlcov/badge-info.json
+          gist_file_name: vcg_${{ env.BRANCH }}.json
