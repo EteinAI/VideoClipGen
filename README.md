@@ -20,8 +20,7 @@ conda create --name vcg python=3.11
 conda activate vcg
 ```
 
-**_
-Strongly recommended to perform the following steps in a virtual env for optimal isolation and to prevent any interference with your base environment._**
+***Strongly recommended to perform the following steps in a virtual env for optimal isolation and to prevent any interference with your base environment.***
 
 > More about conda virtual env management
 >
