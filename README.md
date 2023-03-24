@@ -57,7 +57,7 @@ python scripts/mps_check.py
 pip install -r requirements.txt
 
 # preload models
-python scripts/load_models.py
+python -m scripts.load_models
 ```
 
 ### API Keys
