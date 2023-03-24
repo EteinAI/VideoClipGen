@@ -59,6 +59,11 @@ def proxy_summary(
   import requests
   from sseclient import SSEClient
 
+  api_key = str(os.getenv('PROXY_API_KEY'))
+  if api_key == 'None':
+    print('PROXY_API_KEY not found in env or in .env file')
+    return []
+
   prompt = '\n'.join([texts, template.format(
     sentence_count, min, max, sentence_length)])
   print('prompt:', prompt)
@@ -73,7 +78,7 @@ def proxy_summary(
     headers={
       'Accept': 'text/event-stream',
       'Accept-Encoding': 'gzip, deflate, br',
-      'Authorization': 'Bearer ' + str(os.getenv('PROXY_API_KEY')),
+      'Authorization': 'Bearer ' + api_key,
       'Content-Type': 'application/json',
     },
     stream=True

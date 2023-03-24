@@ -72,6 +72,16 @@ def tts(texts, cwd, voice=None):
     cwd: where the audio files are stored, must exist
   """
 
+  if os.getenv('ALI_APP_KEY') is None:
+    print('ALI_APP_KEY not found in env or in .env file')
+    return []
+  if os.getenv('ALI_ACCESSKEY_ID') is None:
+    print('ALI_ACCESSKEY_ID not found in env or in .env file')
+    return []
+  if os.getenv('ALI_ACCESSKEY_SECRET') is None:
+    print('ALI_ACCESSKEY_SECRET not found in env or in .env file')
+    return []
+
   if voice is None:
     voice = 'zhiyan_emo'
 
