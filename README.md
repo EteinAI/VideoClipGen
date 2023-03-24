@@ -47,7 +47,7 @@ conda install pytorch torchvision torchaudio -c pytorch-nightly
 # verify mps status
 # you should see "device='mps:0'"
 cd VideoClipGen
-python scripts/mps_check.py
+python -m scripts.mps_check
 ```
 
 **Install dependencies**
@@ -66,12 +66,12 @@ API keys are required to invoke third-party services, including:
 
 **TTS (Aliyun)**
 
-- Create a `.env` file in `/path/to/code/speechsynthesis` folder
+- Create a `.env` file in `/path/to/code/vcg/speechsynthesis` folder
 - Add **`ALI_ACCESSKEY_ID`**, **`ALI_ACCESSKEY_SECRET`** and **`ALI_APP_KEY`** into `.env` file
 
 **Text summary (ChatGPT)**
 
-- Create a `.env `file in `/path/to/code/textsummary` folder
+- Create a `.env `file in `/path/to/code/vcg/textsummary` folder
 - Add **`PROXY_API_KEY`** into `.env` file
 
 > VideoClipGen use load-dotenv to load environment variables from .env file, but as long as these IDs and KEYs can be found in the environment variables, it should work.
@@ -81,6 +81,7 @@ API keys are required to invoke third-party services, including:
 Invoke tests to verify the integrity of local environment
 
 ```bash
+# make sure .env files are created and filled with correct keys
 cd /path/to/code/
 pytest
 ```
@@ -88,6 +89,7 @@ pytest
 ### Run workflow locally
 
 ```bash
+# make sure .env files are created and filled with correct keys
 cd /path/to/code/
 python vcg/localflow.py --params params.json
 ```
