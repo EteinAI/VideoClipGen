@@ -20,7 +20,7 @@ conda create --name vcg python=3.11
 conda activate vcg
 ```
 
-***Strongly recommended to perform the following steps in a virtual env for optimal isolation and to prevent any interference with your base environment.***
+**_Strongly recommended to perform the following steps in a virtual env for optimal isolation and to prevent any interference with your base environment._**
 
 > More about conda virtual env management
 >
@@ -92,6 +92,23 @@ pytest
 # make sure .env files are created and filled with correct keys
 cd /path/to/code/
 python vcg/localflow.py --params params.json
+```
+
+## Testing
+
+VideoClipGen uses pytest to run tests.
+
+```bash
+# run all tests
+pytest
+# run tests in a more verbose mode
+# -s means show all outputs, -v stands for verbose
+pytest -s -v
+
+# run tests in a specific file
+pytest tests/test_tts.py
+# run tests in a specific function
+pytest tests/test_tts.py::test_tts
 ```
 
 ## Workflow
