@@ -27,7 +27,7 @@ def validation(filename):
     overwrite_output=True
   )
   if 'error' in str(stderr).lower():
-    return False, stderr
+    return False, stderr.decode("utf-8")
   else:
     return True, 'valid video'
 
@@ -66,7 +66,7 @@ def test_generate(assets, tmp_path):
     assert valid
 
   output = os.path.join(tmp_path, 'output.mp4')
-  concat(videos=videos, output=output)
+  output = concat(videos=videos, output=output)
   assert os.path.exists(output)
   valid, _ = validation(output)
   assert valid

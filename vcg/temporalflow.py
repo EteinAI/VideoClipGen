@@ -99,6 +99,10 @@ class VideoClipGen:
       schedule_to_close_timeout=timedelta(seconds=60)
     )
 
+    if len(params['videos']) != len(audio):
+      raise RuntimeError('Number of video and audio clips do not match')
+
+    # concat video clips
     params['output'] = await workflow.execute_activity(
       'concat_video',
       params,

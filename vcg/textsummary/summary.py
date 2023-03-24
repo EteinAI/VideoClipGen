@@ -9,8 +9,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-print(os.getenv('PROXY_API_KEY'))
-
 template = ' TL;DR 请以 {} 句话为以上文字提供摘要，要求不少于 {} 字，不超过 {} 字, 每句话 {} 字左右，并且以"。"结束，以中文作答，最后一句不使用总结的口吻'
 
 # generate summaries via openai api

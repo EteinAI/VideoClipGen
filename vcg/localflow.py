@@ -21,9 +21,10 @@ async def main(params):
     params['voice'] = params['voice_ali']
 
   # prepare workspace
-  workspace = os.path.join(params['cwd'], params['id'])
+  workspace = os.path.abspath(os.path.join(params['cwd'], params['id']))
   os.makedirs(workspace)
   params['cwd'] = workspace
+  print(f'Workspace: {workspace}')
 
   # parse url
   params['sentences'], params['images'] = await parse_url(params)
@@ -43,6 +44,10 @@ async def main(params):
 
   # generate video clips
   params['videos'] = await generate_video(params)
+  if len(params['videos']) != len(audio):
+    raise RuntimeError('Number of video and audio clips do not match')
+
+  # concat video clips
   output = await concat_video(params)
 
   return output

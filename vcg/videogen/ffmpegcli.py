@@ -2,6 +2,9 @@
 
 import ffmpeg
 import os
+import subprocess
+
+from pprint import pprint
 
 
 def generate(assets, cwd):
@@ -12,7 +15,6 @@ def generate(assets, cwd):
   videos = []
   for i, asset in enumerate(assets):
     path = os.path.join(cwd, f'{i}.mp4')
-    videos.append(path)
 
     a = ffmpeg.input(asset['audio'])
     v = ffmpeg.input(asset['frames'][0])
@@ -32,11 +34,15 @@ def generate(assets, cwd):
       pix_fmt='yuvj420p',
       strict='experimental'
     )
-    print(stream.compile())
-    stream.run(
-      capture_stdout=True,
-      overwrite_output=True
-    )
+    args = stream.compile()
+    process = subprocess.Popen(args, stderr=subprocess.PIPE)
+    _, stderr = process.communicate()
+    if process.returncode != 0:
+      pprint(args)
+      print(stderr.decode('utf-8'))
+    else:
+      print(f'Video clip:', path)
+      videos.append(path)
 
   return videos
 
@@ -69,14 +75,14 @@ def concat(videos, output, width=720, height=1280):
     filter_graphs.append(input.audio)
 
   stream = ffmpeg.concat(*filter_graphs, v=1, a=1, n=2).output(output)
-  print(stream.compile())
+  args = stream.compile()
 
-  try:
-    stream.run(
-      capture_stdout=True,
-      overwrite_output=True
-    )
+  process = subprocess.Popen(args, stderr=subprocess.PIPE)
+  _, stderr = process.communicate()
+  if process.returncode != 0:
+    pprint(args)
+    print(stderr.decode('utf-8'))
+    return ''
+  else:
+    print(f'Video clips concated:', output)
     return output
-  except ffmpeg.Error as e:
-    print(e.stderr.decode())
-  return ''
