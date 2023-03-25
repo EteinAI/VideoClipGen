@@ -1,0 +1,7 @@
+*~
+.coverage
+.DS_Store
+.env
+__pycache__
+/data
+/htmlcov
