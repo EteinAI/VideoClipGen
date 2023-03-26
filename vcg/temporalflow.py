@@ -57,7 +57,7 @@ class VideoClipGen:
     )
 
     # text summarizer
-    params['summaries'] = await workflow.execute_activity(
+    params['summaries'], params['instructions'] = await workflow.execute_activity(
       'summarize',
       params,
       # task_queue='text-summary',

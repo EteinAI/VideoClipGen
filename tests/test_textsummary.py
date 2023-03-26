@@ -3,6 +3,7 @@
 import pytest
 
 from vcg.textsummary.summary import proxy_summary
+from vcg.textsummary.prompts import SimplePrompter, ScenePrompter
 
 
 @pytest.fixture
@@ -26,6 +27,10 @@ def article():
   '''
 
 
-def test_proxy_summary(article):
-  summary = proxy_summary(article)
+@pytest.mark.parametrize('prompter', [
+  SimplePrompter(),
+  ScenePrompter(),
+])
+def test_proxy_summary(article, prompter):
+  summary = proxy_summary(article, prompter)
   assert len(summary) > 0

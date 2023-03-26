@@ -1,58 +1,47 @@
 # Path: textsummary/summary.py
 
-import openai
 import os
-import re
-from pprint import pprint
+
+from textsummary.prompts import Prompter
 
 from dotenv import load_dotenv
-
 load_dotenv()
 
-template = ' TL;DR 请以 {} 句话为以上文字提供摘要，要求不少于 {} 字，不超过 {} 字, 每句话 {} 字左右，并且以"。"结束，以中文作答，最后一句不使用总结的口吻'
 
 # generate summaries via openai api
-
-
 def openai_summary(
-  texts: str,
-  min=200,
-  max=250,
-  sentence_count=6,
-  sentence_length=40
-) -> list[str]:
-  openai.api_key = os.getenv('OPENAI_API_KEY')
+  text: str,
+  prompter: Prompter = Prompter()
+) -> tuple[list[str], list[str]]:
+  import openai
 
-  prompt = '\n'.join([texts, template.format(
-    sentence_count, min, max, sentence_length)])
-  print('prompt:', prompt)
+  api_key = str(os.getenv('OPENAI_API_KEY'))
+  if api_key == 'None':
+    print('PROXY_API_KEY not found in env or in .env file')
+    return [], []
+  else:
+    openai.api_key = api_key
 
   response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
+    model='gpt-3.5-turbo',
     messages=[
-      {"role": "system", "content": "You are a chatbot"},
-      {"role": "user", "content": prompt},
+      {'role': 'system', 'content': 'You are a chatbot'},
+      {'role': 'user', 'content': prompter.prompt(text)},
     ]
   )
-  pprint(response)
 
-  # TODO check length of summaries, retry if requirements not met
-  summaries = [s for s in re.split(
-    r'。|；', response.choices[0].message.content) if len(s) > 0]
-  pprint(summaries)
+  if response.choices is None or len(response.choices) == 0:
+    return [], []
 
-  return summaries
+  answer = response.choices[0].message.content
+  return prompter.summaries(answer), prompter.instructions(answer)
+
 
 # generate summaries via proxy service
-
-
 def proxy_summary(
-  texts: str,
-  min=200,
-  max=250,
-  sentence_count=6,
-  sentence_length=40
-) -> list[str]:
+  text: str,
+  prompter: Prompter = Prompter()
+) -> tuple[list[str], list[str]]:
   import json
   import requests
   from sseclient import SSEClient
@@ -60,17 +49,13 @@ def proxy_summary(
   api_key = str(os.getenv('PROXY_API_KEY'))
   if api_key == 'None':
     print('PROXY_API_KEY not found in env or in .env file')
-    return []
-
-  prompt = '\n'.join([texts, template.format(
-    sentence_count, min, max, sentence_length)])
-  print('prompt:', prompt)
+    return [], []
 
   response = requests.post(
     'https://chat.cyberytech.com/conversation',
     data=json.dumps({
       'clientOptions': {'clientToUse': 'chatgpt'},
-      'message': prompt,
+      'message': prompter.prompt(text),
       'stream': True
     }),
     headers={
@@ -85,9 +70,6 @@ def proxy_summary(
   for event in client.events():
     if event.event == 'result':
       answer = json.loads(event.data)['response']
-      # TODO check length of summaries, retry if requirements not met
-      summaries = [s for s in re.split(r'。|；', answer) if len(s) > 0]
-      pprint(summaries)
+      return prompter.summaries(answer), prompter.instructions(answer)
 
-      return summaries
-  return []
+  return [], []

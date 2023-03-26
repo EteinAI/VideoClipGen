@@ -8,7 +8,7 @@ from imageretrieval.retrieval import retrieve
 
 @activity.defn(name='retrieve_image')
 async def retrieve_image(params) -> list[list[str]]:
-  selected, kept, dropped = retrieve(params['summaries'], params['images'])
+  selected, kept, dropped = retrieve(params['instructions'], params['images'])
 
   cwd = os.path.join(params['cwd'], 'retrieve')
   selected_path = os.path.join(cwd, 'selected')

@@ -30,7 +30,7 @@ async def main(params):
   params['sentences'], params['images'] = await parse_url(params)
 
   # text summarizer
-  params['summaries'] = await summarize(params)
+  params['summaries'], params['instructions'] = await summarize(params)
 
   # image retrieval and speech synthesis
   frames = await retrieve_image(params)
@@ -56,10 +56,20 @@ async def main(params):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument('--params', required=True, type=str)
+  parser.add_argument('--cwd', type=str)
+  parser.add_argument('--url', type=str)
+  parser.add_argument('--voice-ali', type=str)
+  parser.add_argument('--prompter', type=str)
 
   args = parser.parse_args()
-  param_file = args.params
-
-  with open(param_file, 'rb') as fp:
+  with open(args.params, 'rb') as fp:
     params = json.load(fp)
+    if args.cwd:
+      params['cwd'] = args.cwd
+    if args.url:
+      params['url'] = args.url
+    if args.voice_ali:
+      params['voice_ali'] = args.voice_ali
+    if args.prompter:
+      params['prompter'] = args.prompter
     asyncio.run(main(params))

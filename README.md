@@ -113,6 +113,9 @@ pytest
 # make sure .env files are created and filled with correct keys
 cd /path/to/code/
 python vcg/localflow.py --params params.json
+
+# append more parameters to the command to overwrite pre-defined ones in params.json
+python vcg/localflow.py --params params.json --voice-ali zhiyan_emo --prompter=ScenePrompter
 ```
 
 ## Testing
