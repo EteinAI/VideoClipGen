@@ -1,7 +1,7 @@
 # VideoClipGen
 
 [![Test CI](https://github.com/EteinAI/VideoClipGen/actions/workflows/pytest.yml/badge.svg)](https://github.com/EteinAI/VideoClipGen/actions/workflows/pytest.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.github.com/EteinAI/d2252855dcf797fe1d205982bef0c9be/raw/vcg_heads_main.json)](https://github.com/EteinAI/VideoClipGen/actions/workflows/pytest.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/EteinAI/d2252855dcf797fe1d205982bef0c9be/raw/vcg_heads_main.json)](https://github.com/EteinAI/VideoClipGen/actions/workflows/pytest.yml)
 
 > Autonomous video clip generation
 
