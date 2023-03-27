@@ -54,12 +54,21 @@ git clone git@github.com:EteinAI/VideoClipGen.git
 
 # install pytorch with MPS (Metal Performance Shaders) backend
 # https://developer.apple.com/metal/pytorch/
-conda install pytorch torchvision torchaudio -c pytorch-nightly
+conda install -c pytorch-nightly pytorch torchvision torchaudio
 
 # verify mps status
 # you should see "device='mps:0'"
 cd VideoClipGen
 python -m scripts.mps_check
+```
+
+**Jupyterlab**
+
+Install jupyterlab for local development
+
+```bash
+# install jupyterlab
+conda install -c conda-forge jupyterlab
 ```
 
 **Install dependencies**
@@ -104,6 +113,9 @@ pytest
 # make sure .env files are created and filled with correct keys
 cd /path/to/code/
 python vcg/localflow.py --params params.json
+
+# append more parameters to the command to overwrite pre-defined ones in params.json
+python vcg/localflow.py --params params.json --voice-ali zhiyan_emo --prompter=ScenePrompter
 ```
 
 ## Testing
