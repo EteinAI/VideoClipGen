@@ -1,5 +1,6 @@
 import os
 import asyncio
+import json
 
 from datetime import timedelta
 
@@ -26,10 +27,38 @@ with workflow.unsafe.imports_passed_through():
 
 @workflow.defn
 class VideoClipGen:
+  def __init__(self):
+    self._progress = {
+      'runId': '',
+      'output': '',
+      'project': {'status': 'pending', 'startTime': 0},
+      'parser': {'status': 'pending', 'startTime': 0},
+      'assets': {'status': 'pending', 'startTime': 0},
+      'video': {'status': 'pending', 'startTime': 0},
+    }
+
+  def _set_progress(self, key: str, status: str):
+    '''
+    status: pending, running, success, error, timeout
+    '''
+    self._progress[key]['status'] = status
+    if status == 'running':
+      self._progress[key]['startTime'] = round(workflow.time() * 1000)
+    else:
+      self._progress[key]['endTime'] = round(workflow.time() * 1000)
+
+  @workflow.query(name='progress')
+  def query(self) -> str:
+    return json.dumps(self._progress)
+
   @workflow.run
   async def run(self, params):
     print(f'New workflow {workflow.info().run_id}...')
     print(f'Input parameters\n{params}')
+
+    # update workflow status
+    self._progress['runId'] = workflow.info().run_id
+    self._set_progress('project', 'running')
 
     # preprocess workflow parameters
     # TODO Find better algorithm for generating id to make it more readable
@@ -48,6 +77,10 @@ class VideoClipGen:
     )
     params['cwd'] = cwd
 
+    # update workflow status
+    self._set_progress('project', 'success')
+    self._set_progress('parser', 'running')
+
     # url crawler
     params['sentences'], params['images'] = await workflow.execute_activity(
       'parse_url',
@@ -65,8 +98,16 @@ class VideoClipGen:
     )
 
     if len(params['images']) < len(params['summaries']):
+      # set status
+      self._set_progress('parser', 'error')
       raise exceptions.ApplicationError('Too few images compare with summaries')
+    else:
+      self._set_progress('parser', 'success')
 
+    # update workflow status
+    self._set_progress('assets', 'running')
+
+    # tts and image retrieval
     frames, audio = await asyncio.gather(
       # retrieve image frames
       workflow.execute_activity(
@@ -86,10 +127,16 @@ class VideoClipGen:
     )
 
     if len(frames) != len(audio):
+      self._set_progress('assets', 'error')
       raise RuntimeError('Number of frames and audio clips do not match')
+    else:
+      self._set_progress('assets', 'success')
 
     params['assets'] = [{'frames': frames[i], 'audio': audio[i]}
                         for i in range(len(frames))]
+
+    # update workflow status
+    self._set_progress('video', 'running')
 
     # generate video clips
     params['videos'] = await workflow.execute_activity(
@@ -100,6 +147,7 @@ class VideoClipGen:
     )
 
     if len(params['videos']) != len(audio):
+      self._set_progress('video', 'error')
       raise RuntimeError('Number of video and audio clips do not match')
 
     # concat video clips
@@ -109,6 +157,10 @@ class VideoClipGen:
       # task_queue='video-generation',
       schedule_to_close_timeout=timedelta(seconds=60)
     )
+
+    # update workflow status
+    self._set_progress('video', 'success')
+    self._progress['output'] = params['output']
 
     return params
 
