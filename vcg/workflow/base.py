@@ -6,6 +6,7 @@ from temporalio.worker import Worker
 
 
 async def main(server: str, task_queue: str, activities):
+  print(f'Server: {server}')
   print(f'Task queue: {task_queue}')
 
   # Create client connected to server at the given address
