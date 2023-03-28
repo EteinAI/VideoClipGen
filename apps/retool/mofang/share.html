@@ -1,0 +1,83 @@
+<html>
+
+<head>
+  <meta title="Share video" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </script>
+  <style>
+    .body {
+      margin: 0px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .button {
+      display: flex;
+      flex: 1;
+      justify-content: center;
+
+      border-color: black;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 50vh;
+      margin: 0px 8px;
+      padding: 8px 0px;
+
+      background-color: #4299e1;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body class="body" style="height: 48px">
+  <div style="display: flex; flex-direction: row;">
+    <input id="btn_sharevideo" class="button" type="button" style="width: 140px" value="分享" />
+  </div>
+
+  <script>
+    const button = document.getElementById("btn_sharevideo");
+    const shareVideo = async function (event) {
+      // Prevent form default behavior
+      event.preventDefault()
+
+      // Convert dataUrl into blob using browser fetch API
+      const params = new URLSearchParams(window.location.search);
+      console.log("url:", params.get("url"));
+
+      console.time('download video');
+      button.value = "下载中...";
+
+      const video = await fetch(params.get("url"));
+      const blob = await video.blob();
+      blob.type = "video/mp4";
+      const files = [new File([blob], 'output.mp4', { type: "video/mp4" })];
+
+      button.value = "分享";
+      console.timeEnd('download video');
+
+      // Check if the device is able to share these files then open share dialog
+      if (navigator.canShare && navigator.canShare({ files })) {
+        try {
+          await navigator.share({ files })
+        } catch (error) {
+          console.log('Sharing failed', error)
+        }
+      } else {
+        console.log('This device does not support sharing files.')
+      }
+    };
+
+    // Call the shareVideo function when the share button is clicked
+    button.addEventListener("click", shareVideo);
+  </script>
+</body>
+
+</html>
