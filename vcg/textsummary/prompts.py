@@ -11,15 +11,9 @@ class Prompter:
     '''
     return text
 
-  def instructions(self, response: str) -> list[str]:
+  def transform(self, response: str):
     '''
-    Parse response from chatbot, generate instructions for image retrieval
-    '''
-    return response.split('\n')
-
-  def summaries(self, response: str) -> list[str]:
-    '''
-    Parse response from chatbot, generate summaries
+    Transform response from chatbot to desired format
     '''
     return response.split('\n')
 
@@ -45,11 +39,29 @@ TL;DR 请为以上字提供摘要，要求如下:
   def prompt(self, text: str) -> str:
     return self._template.format(text=text)
 
+  def transform(self, response: str):
+    instructions = self.instructions(response)
+    return instructions, instructions
+
   def instructions(self, response: str) -> list[str]:
     return [s for s in re.split(r'。|；', response) if len(s) > 0]
 
   def summaries(self, response: str) -> list[str]:
     return self.instructions(response)
+
+
+class TitleSimplePrompter(Prompter):
+  def __init__(self, length=20):
+    super().__init__()
+    self._template = '''
+结合之前的文章和摘要，帮我生成一个花哨的营销视频标题，标题为中文，注意字数限制在{length}字以内
+'''.format(length=length)
+
+  def prompt(self, _: str) -> str:
+    return self._template.format()
+
+  def transform(self, response: str) -> str:
+    return response
 
 
 class ScenePrompter(Prompter):
@@ -70,8 +82,30 @@ class ScenePrompter(Prompter):
   def prompt(self, text: str) -> str:
     return self._template.format(text=text)
 
+  def transform(self, response: str):
+    instructions = ['场景' + s.strip()
+                    for s in response.split('场景') if len(s.strip()) > 0]
+    summaries = [re.split(r':|：', s)[-1].strip() for s in instructions]
+    return summaries, instructions
+
   def instructions(self, resp: str) -> list[str]:
     return ['场景' + s.strip() for s in resp.split('场景') if len(s.strip()) > 0]
 
   def summaries(self, resp: str) -> list[str]:
     return [re.split(r':|：', s)[-1].strip() for s in self.instructions(resp)]
+
+
+class TitleScenePrompter(Prompter):
+  def __init__(self, length=20):
+    super().__init__()
+    self._template = '''{text}
+帮我生成一个花哨的营销视频标题，标题为中文，注意字数限制在{length}字以内'''.format(
+      text='{text}',
+      length=length,
+    )
+
+  def prompt(self, text: str) -> str:
+    return self._template.format(text=text)
+
+  def transform(self, response: str) -> str:
+    return response

@@ -2,8 +2,10 @@
 
 import pytest
 
-from vcg.textsummary.summary import proxy_summary
-from vcg.textsummary.prompts import SimplePrompter, ScenePrompter
+from vcg.textsummary.summary import proxy_summary, proxy_summary_title
+from vcg.textsummary.generator import Generator
+from vcg.textsummary.prompts import SimplePrompter, TitleSimplePrompter
+from vcg.textsummary.prompts import ScenePrompter, TitleScenePrompter
 
 
 @pytest.fixture
@@ -34,3 +36,31 @@ def article():
 def test_proxy_summary(article, prompter):
   summary = proxy_summary(article, prompter)
   assert len(summary) > 0
+
+
+@pytest.mark.parametrize('prompter', [
+  SimplePrompter(),
+  ScenePrompter(),
+])
+def test_generator(article, prompter):
+  gen1 = Generator()
+  resp = gen1.query(article, prompter)
+  assert len(resp) > 0
+  gen2 = Generator(gen1)
+  resp = gen2.query(resp, prompter)
+  assert len(resp) > 0
+
+
+@pytest.mark.parametrize('prompters', [
+  (SimplePrompter(), TitleSimplePrompter()),
+  (ScenePrompter(), TitleScenePrompter())
+])
+def test_summary_and_title(article, prompters):
+  summaries, instructions, title = proxy_summary_title(
+    text=article,
+    summary_prompter=prompters[0],
+    title_prompter=prompters[1],
+  )
+  assert len(summaries) > 0
+  assert len(instructions) > 0
+  assert title != ''
