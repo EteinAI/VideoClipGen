@@ -29,6 +29,7 @@ def generate(assets, cwd):
       h='trunc(ih/2)*2'
     ).output(
       path,
+      r=24,  # set fps explicitly to support gif
       vcodec='libx264',
       acodec='aac',
       pix_fmt='yuvj420p',
