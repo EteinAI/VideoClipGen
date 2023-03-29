@@ -58,7 +58,7 @@ def assets():
 
 
 def test_generate(assets, tmp_path):
-  videos = generate(assets=assets, cwd=tmp_path)
+  videos = generate(assets=assets, cwd=tmp_path, verbose=True)
   assert len(videos) == len(assets)
   for video in videos:
     assert os.path.exists(video)

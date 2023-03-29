@@ -7,7 +7,7 @@ import subprocess
 from pprint import pprint
 
 
-def generate(assets, cwd):
+def generate(assets, cwd, verbose=False):
   """
   Generate videos from frames and audio.
   """
@@ -20,7 +20,7 @@ def generate(assets, cwd):
     v = ffmpeg.input(asset['frames'][0])
     stream = ffmpeg.concat(
       v.video,
-      a.audio,
+      a.audio.filter('apad', pad_dur=0.5),  # extend(padding) audio by 0.5s
       v=1,
       a=1
     ).filter(
@@ -37,8 +37,13 @@ def generate(assets, cwd):
     )
     args = stream.compile()
     process = subprocess.Popen(
-      args, stderr=subprocess.PIPE, stdout=subprocess.DEVNULL)
-    _, stderr = process.communicate()
+      args,
+      stderr=subprocess.PIPE,
+      stdout=subprocess.PIPE,
+    )
+    stdout, stderr = process.communicate()
+    if verbose:
+      print(stdout.decode('utf-8'))
     if process.returncode != 0:
       pprint(args)
       print(stderr.decode('utf-8'))
@@ -76,7 +81,7 @@ def concat(videos, output, width=720, height=1280):
     ))
     filter_graphs.append(input.audio)
 
-  stream = ffmpeg.concat(*filter_graphs, v=1, a=1, n=2).output(output)
+  stream = ffmpeg.concat(*filter_graphs, v=1, a=1).output(output)
   args = stream.compile()
 
   process = subprocess.Popen(args, stderr=subprocess.PIPE)
