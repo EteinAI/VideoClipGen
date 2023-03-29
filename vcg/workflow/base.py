@@ -17,7 +17,7 @@ async def main(server: str, task_queue: str, activities):
   await worker.run()
 
 
-def run_activity(activities, task_queue='default'):
+def run_activity(activities, task_queue='vcg'):
   parser = argparse.ArgumentParser()
   parser.add_argument('--server', default='localhost:7233')
   parser.add_argument('--task-queue')

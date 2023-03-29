@@ -74,7 +74,7 @@ class VideoClipGen:
     workspace = await workflow.execute_activity(
       prepare,
       params,
-      task_queue='default',
+      task_queue='vcg',
       schedule_to_close_timeout=timedelta(seconds=60),
     )
     params['cwd'] = workspace
@@ -195,7 +195,7 @@ if __name__ == '__main__':
 
   parser = argparse.ArgumentParser()
   parser.add_argument('--server', default='localhost:7233')
-  parser.add_argument('--task-queue', default='default')
+  parser.add_argument('--task-queue', default='vcg')
   args = parser.parse_args()
   server = args.server
   task_queue = args.task_queue
