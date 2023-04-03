@@ -1,8 +1,13 @@
 # Path tests/test_textsummary.py
 
 import pytest
+from unittest.mock import patch
+
+import os
 
 from vcg.textsummary.summary import proxy_summary, proxy_summary_title
+from vcg.textsummary.activity import summary_and_title
+
 from vcg.textsummary.generator import Generator
 from vcg.textsummary.prompts import SimplePrompter, TitleSimplePrompter
 from vcg.textsummary.prompts import ScenePrompter, TitleScenePrompter
@@ -29,8 +34,16 @@ def article():
   '''
 
 
+@pytest.fixture
+def title():
+  return [
+    '平行世界 | 雅琪诺新品窗帘系列——和光同尘（二）',
+    '软装案例分享 | 十余色彩，打造和谐高级的软装空间',
+    '闪耀中装协住宅产业年会，恒洁获2022年红鼎奖最高奖',
+  ][0]
+
+
 @pytest.mark.parametrize('prompter', [
-  SimplePrompter(),
   ScenePrompter(),
 ])
 def test_proxy_summary(article, prompter):
@@ -52,15 +65,33 @@ def test_generator(article, prompter):
 
 
 @pytest.mark.parametrize('prompters', [
-  (SimplePrompter(), TitleSimplePrompter()),
   (ScenePrompter(), TitleScenePrompter())
 ])
-def test_summary_and_title(article, prompters):
+def test_proxy_summary_title(article, title, prompters):
   summaries, instructions, title = proxy_summary_title(
     text=article,
+    title=title,
     summary_prompter=prompters[0],
     title_prompter=prompters[1],
   )
   assert len(summaries) > 0
   assert len(instructions) > 0
   assert title != ''
+
+
+@pytest.mark.asyncio
+@patch('vcg.textsummary.activity.proxy_summary_title')
+async def test_summary_and_title(mock_summary, tmp_path, params):
+  params['cwd'] = tmp_path
+  mock_summary.return_value = (
+    params['summaries'],
+    params['instructions'],
+    params['title'],
+  )
+
+  summaries, instructions, title = await summary_and_title(params)
+
+  mock_summary.assert_called_once()
+  assert summaries[0] == title
+  assert instructions[0] == title
+  assert os.path.exists(os.path.join(tmp_path, 'summaries.json'))

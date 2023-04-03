@@ -15,11 +15,18 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 class TextEmbeddings:
-  model_name = 'M-CLIP/XLM-Roberta-Large-Vit-L-14'
+  _model_name = 'M-CLIP/XLM-Roberta-Large-Vit-L-14'
+  _singleton = None
+
+  @classmethod
+  def instance(cls):
+    if TextEmbeddings._singleton is None:
+      TextEmbeddings._singleton = TextEmbeddings()
+    return TextEmbeddings._singleton
 
   def __init__(self) -> None:
-    self._model = lang.MultilingualCLIP.from_pretrained(self.model)
-    self._tokenizer = transformers.AutoTokenizer.from_pretrained(self.model)
+    self._model = lang.MultilingualCLIP.from_pretrained(self.name)
+    self._tokenizer = transformers.AutoTokenizer.from_pretrained(self.name)
 
   def encode(self, sentences: list[str]):
     """Get text embeddings for a list of sentences."""
@@ -29,16 +36,23 @@ class TextEmbeddings:
       return embeddings.detach().cpu().numpy()
 
   @property
-  def model(self):
-    return TextEmbeddings.model_name
+  def name(self):
+    return TextEmbeddings._model_name
 
 
 class ImageEmbeddings:
-  model_name = 'ViT-L/14'
+  _model_name = 'ViT-L/14'
+  _singleton = None
+
+  @classmethod
+  def instance(cls):
+    if ImageEmbeddings._singleton is None:
+      ImageEmbeddings._singleton = ImageEmbeddings()
+    return ImageEmbeddings._singleton
 
   def __init__(self) -> None:
     super().__init__()
-    self._model, self._preprocess = clip.load(self.model, device=device)
+    self._model, self._preprocess = clip.load(self.name, device=device)
 
   def encode(self, image_files: list[str]):
     """Get image embeddings for a list of image files."""
@@ -50,13 +64,8 @@ class ImageEmbeddings:
       return embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
 
   @property
-  def model(self):
-    return ImageEmbeddings.model_name
-
-
-# preloaded models
-image_encoder = ImageEmbeddings()
-text_encoder = TextEmbeddings()
+  def name(self):
+    return ImageEmbeddings._model_name
 
 
 def clustering(embeddings, k=2) -> list[list[int]]:
@@ -83,17 +92,20 @@ def retrieve(sentences, images):
 
   # HACK! hardcoded preprocessing
   # Drop images whose width/height ratio larger that 2
-  sizes = [Image.open(f).size for f in images]
-  images = [images[i]
-            for i in range(len(images)) if sizes[i][0] / sizes[i][1] < 2]
+  s = [Image.open(f).size for f in images]
+  images = sorted([images[i]
+                   for i in range(len(images)) if s[i][0] / s[i][1] < 2])
 
-  images = sorted(images)
-  image_embeddings = image_encoder.encode(images)
-  text_embeddings = text_encoder.encode(sentences)
+  image_embeddings = ImageEmbeddings.instance().encode(images)
+  text_embeddings = TextEmbeddings.instance().encode(sentences)
 
   # HACK! assume the majority group is the one contains the query image
   groups = clustering(image_embeddings, k=2)
   print(f'Clusters: {groups}')
+
+  # HACK! if merge two groups if not enough images in the majority group
+  if len(groups[0]) < len(sentences):
+    groups = [groups[0] + groups[1], []]
 
   kept = [images[i] for i in groups[0]]
   dropped = [images[i] for i in groups[1]]

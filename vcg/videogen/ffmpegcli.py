@@ -3,10 +3,10 @@
 import ffmpeg
 import os
 import subprocess
-
-from pprint import pprint
+import logging
 
 from videogen.keyframe import kfa
+
 
 # shared ffmpeg command line parameters
 # https://ffmpeg.org/ffmpeg.html#Options
@@ -58,21 +58,19 @@ def run(stream, verbose=False):
   Run a ffmpeg command with subprocess.
   Log error if return code is not 0, log stdout if verbose is True.
   """
-  args = stream.compile()
+  args = stream.overwrite_output().compile()
   process = subprocess.Popen(
     args,
     stderr=subprocess.PIPE,
     stdout=subprocess.PIPE,
   )
   stdout, stderr = process.communicate()
+  if verbose:
+    logging.warning(stdout.decode('utf-8'))
   if process.returncode != 0:
-    pprint(args)
-    print(stderr.decode('utf-8'))
-    return False
-  else:
-    if verbose:
-      print(stdout.decode('utf-8'))
-    return True
+    logging.error(args)
+    logging.error(stderr.decode('utf-8'))
+  return process.returncode
 
 
 def generate(assets, cwd, extend=0.5, verbose=False):
@@ -125,8 +123,8 @@ def generate(assets, cwd, extend=0.5, verbose=False):
       shortest=None,
     )
 
-    if run(stream, verbose=verbose):
-      print(f'Video clip: {path}')
+    if run(stream, verbose=verbose) == 0:
+      logging.info(f'Video clip: {path}')
       videos.append(path)
 
   return videos
@@ -160,8 +158,8 @@ def keyframe(videos, cwd, verbose=False):
       output, **vconf, **aconf, **oconf,
     )
 
-    if run(stream, verbose=verbose):
-      print(f'Add keyframe animation {name} to video{s}: {src}')
+    if run(stream, verbose=verbose) == 0:
+      logging.info(f'Add keyframe animation {name} to video{s}: {src}')
       kfa_videos.append(output)
       kfa_names.append(name)
 
@@ -173,6 +171,7 @@ def concat(videos, output, size=default_size, verbose=False):
   Concatenate videos.
   Scale and pad the videos to the same size, then concatenate them.
   """
+
   width, height = size
   filter_graphs = []
   for file in videos:
@@ -194,15 +193,21 @@ def concat(videos, output, size=default_size, verbose=False):
       max='1'
     ))
     filter_graphs.append(input.audio)
-  stream = ffmpeg.concat(*filter_graphs, v=1, a=1).output(
-    output, **vconf, **aconf, **oconf,
-  )
 
-  if run(stream, verbose=verbose):
-    print(f'Video clips concated: {output}')
-    return output
-  else:
-    return ''
+  try:
+    stream = ffmpeg.concat(*filter_graphs, v=1, a=1).output(
+      output, **vconf, **aconf, **oconf,
+    )
+  except Exception as e:
+    logging.error(str(e))
+    raise RuntimeError(f'Failed to assemble stream: {output}')
+
+  if run(stream, verbose=verbose) != 0:
+    raise RuntimeError(f'Failed to concatenate videos: {output}')
+
+  logging.info(f'Video clips concatenated: {output}')
+
+  return output
 
 
 def audio_mix(video_file, bgm_file, output,
@@ -238,8 +243,9 @@ def audio_mix(video_file, bgm_file, output,
     **vconf, **aconf, **oconf
   )
 
-  if run(stream, verbose=verbose):
-    print(f'Background music added: {output}')
-    return output
-  else:
-    return ''
+  if run(stream, verbose=verbose) != 0:
+    raise RuntimeError(f'Failed to add background music to {video_file}')
+
+  logging.info(f'Background music mixed: {output}')
+
+  return output

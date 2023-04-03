@@ -1,12 +1,15 @@
 # Path test/test_video.py
 
 import pytest
+from unittest.mock import patch
 
 import ffmpeg
 import os
 from pathlib import Path
 
 from vcg.videogen.ffmpegcli import generate, keyframe, concat, audio_mix
+from vcg.videogen.activity import generate_video, concat_video
+from vcg.videogen.bgm import BGM
 
 
 def validation(filename):
@@ -67,7 +70,7 @@ def test_generate(assets, tmp_path):
 
 def test_keyframe(assets, tmp_path):
   videos = generate(assets=assets, cwd=tmp_path, verbose=True)
-  outputs, names = keyframe(videos=videos, cwd=tmp_path)
+  outputs, names = keyframe(videos=videos, cwd=tmp_path, verbose=True)
   assert len(outputs) == len(videos)
   assert len(names) == len(videos)
   for output in outputs:
@@ -78,31 +81,83 @@ def test_keyframe(assets, tmp_path):
 
 def test_concat(assets, tmp_path):
   videos = generate(assets=assets, cwd=tmp_path, verbose=True)
-  outputs, _ = keyframe(videos=videos, cwd=tmp_path)
   # videos = [os.path.join(tmp_path, f'{i}.mp4')
   #           for i in range(len(assets))]
-  output = concat(videos=outputs, output=os.path.join(tmp_path, 'output.mp4'))
+
+  with pytest.raises(RuntimeError) as e:
+    concat(videos=videos, size=(100, 100), output='concat.mp4', verbose=True)
+    assert 'Failed to concatenate videos' in str(e)
+
+  with pytest.raises(RuntimeError) as e:
+    concat(videos=[], output='concat.mp4')
+    assert 'Failed to assemble stream' in str(e)
+
+  output = concat(videos=videos, output=os.path.join(tmp_path, 'output.mp4'))
   assert os.path.exists(output)
   valid, _ = validation(output)
   assert valid
 
 
-@pytest.fixture
 def bgms():
   workspace = os.path.dirname(__file__)
   bgm_path = Path(os.path.join(workspace, 'data', 'bgm'))
   return sorted([*bgm_path.glob('**/*.m4a')])
 
 
-# @pytest.mark.parametrize('bgmusic', *pytest.lazy_fixture('bgms'))
-def test_audio_mix(assets, tmp_path, BGM_instance):
+# TODO reuse concat test result
+# @pytest.mark.parametrize('bgm', bgms())
+def test_audio_mix(assets, tmp_path):
   videos = generate(assets=assets, cwd=tmp_path, verbose=True)
-  outputs, _ = keyframe(videos=videos, cwd=tmp_path)
-  output = concat(videos=outputs, output=os.path.join(tmp_path, 'output.mp4'))
+  output = concat(videos=videos, output=os.path.join(tmp_path, 'output.mp4'))
 
-  all = BGM_instance.all()
-  for i, key in enumerate(all):
-    mixed = os.path.join(tmp_path, f'output{i}.mp4')
-    mixed = audio_mix(output, BGM_instance[key], mixed)
-    valid, _ = validation(mixed)
-    assert valid
+  with pytest.raises(RuntimeError) as e:
+    audio_mix(output, 'not_exist.mp3', 'mixed.mp4')
+    assert 'Failed to add background music' in str(e)
+
+  mixed = os.path.join(tmp_path, 'with_bgm.mp4')
+  mixed = audio_mix(output, BGM.instance().random()[1], mixed)
+  valid, _ = validation(mixed)
+  assert valid
+
+
+@pytest.mark.asyncio
+@patch('vcg.videogen.activity.generate')
+async def test_generate_video(mock_generate, tmp_path, params):
+  params['cwd'] = tmp_path
+  mock_generate.return_value = params['videos']
+
+  videos = await generate_video(params)
+
+  mock_generate.assert_called_once()
+  assert videos == params['videos']
+  assert os.path.exists(os.path.join(params['cwd'], 'video'))
+
+
+@pytest.mark.asyncio
+@patch('vcg.videogen.activity.keyframe')
+@patch('vcg.videogen.activity.audio_mix')
+@patch('vcg.videogen.activity.concat')
+async def test_concat_video(
+  mock_concat,
+  mock_audio_mix,
+  mock_keyframe,
+  tmp_path, params
+):
+  params['cwd'] = tmp_path
+  mock_concat.return_value = 'concat.mp4'
+  mock_audio_mix.return_value = 'output.mp4'
+  mock_keyframe.return_value = (
+    params['videos'],
+    params['kfa'],
+  )
+
+  videos, bgm, kfa = await concat_video(params)
+
+  mock_concat.assert_called_once()
+  mock_audio_mix.assert_called_once()
+  mock_keyframe.assert_called_once()
+  assert videos == 'output.mp4'
+  assert os.path.exists(bgm)
+  assert kfa == params['kfa']
+  assert mock_audio_mix.call_args.args[0] == 'concat.mp4'
+  assert os.path.exists(os.path.join(params['cwd'], 'video'))

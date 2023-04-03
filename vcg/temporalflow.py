@@ -6,6 +6,9 @@ from datetime import timedelta
 
 from temporalio import activity
 from temporalio import workflow
+from temporalio.client import Client
+from temporalio.worker import Worker
+
 from temporalio.common import RetryPolicy
 from temporalio.exceptions import ApplicationError, FailureError
 
@@ -20,7 +23,7 @@ async def prepare(params) -> str:
       os.path.dirname(__file__),
       '../tests/data/bgm',
     ))
-    os.environ.setdefault('VCG_BGM_ROOT', os.path.abspath(test_bgm))
+    os.environ['VCG_BGM_ROOT'] = os.path.abspath(test_bgm)
   print(f'VCG_BGM_ROOT: {os.getenv("VCG_BGM_ROOT")}')
 
   # workspace
@@ -171,6 +174,7 @@ class VideoClipGen:
           retry_policy=retry_policy,
         )
       )
+      params['frames'], params['audio'] = frames, audio
     except FailureError as e:
       # update status
       self._set_progress('assets', 'error', 'AssetsGenError')
@@ -233,16 +237,11 @@ class VideoClipGen:
     return params
 
 
-async def main(server: str, task_queue: str):
-  from temporalio.client import Client
-  from temporalio.worker import Worker
-
+async def main(client: Client, task_queue: str):
   print('Starting workflow VideoClipGen...')
-  print(f'Connecting to server at {server}...')
   print(f'Using task queue {task_queue}...')
 
   # Create client connected to server at the given address
-  client = await Client.connect(server)
   worker = Worker(
     client,
     task_queue=task_queue,
@@ -263,4 +262,9 @@ if __name__ == '__main__':
   server = args.server
   task_queue = args.task_queue
 
-  asyncio.run(main(server, task_queue))
+  async def connect():
+    print(f'Connecting to server at {server}...')
+    client = await Client.connect(server)
+    await main(client, task_queue)
+
+  asyncio.run(connect())

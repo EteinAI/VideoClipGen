@@ -6,9 +6,12 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - v*-release
   pull_request:
-    branches: ["main"]
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
@@ -19,13 +22,6 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # The values for these variables are taken from GitHub Secrets
-    env:
-      ALI_ACCESSKEY_ID: ${{ secrets.ALI_ACCESSKEY_ID }}
-      ALI_ACCESSKEY_SECRET: ${{ secrets.ALI_ACCESSKEY_SECRET }}
-      ALI_APP_KEY: ${{ secrets.ALI_APP_KEY }}
-      PROXY_API_KEY: ${{ secrets.PROXY_API_KEY }}
 
     strategy:
       # You can use PyPy versions in python-version.
@@ -39,36 +35,56 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Install FFmpeg
       - name: Install FFmpeg
         uses: FedericoCarboni/setup-ffmpeg@v2
         id: setup-ffmpeg
 
+      # Setup python
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
+        id: setup-python
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
 
-      - name: Restore pip cache
+      # Cache python packages
+      - name: Try to load cached dependencies
         uses: actions/cache@v3
+        id: deps-cache
         with:
-          path: "~/.cache/pip"
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          path: ${{ env.pythonLocation }}
+          key: python-dependencies-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}-${{ env.pythonLocation }}
+
+      # Run `pip install` if package cache miss
+      - name: Install external dependencies on cache miss
+        run: |
+          python -m pip install --no-cache-dir --upgrade pip
+          python -m pip install --no-cache-dir -r requirements.txt
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+
+      # Try restore models from cache
+      - name: Restore models from cache if exists
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ~/.cache/clip
+            ~/.cache/huggingface/hub
+          key: models-${{ matrix.os }}-${{ env.NEW_MODEL_CACHE_HASH }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            models-${{ matrix.os }}-
 
-      - name: Install deps
+      # Verify and try update models
+      - name: Load/update models
+        shell: bash
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          echo "OLD_MODEL_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          python -m scripts.load_models
+          echo "NEW_MODEL_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
 
-      - name: Pull data
+      # Run tests with coverage report
+      - name: Pytest with coverage report
         run: |
-          echo "TODO: data management"
-
-      - name: Run tests with pytest
-        run: |
-          pytest --cov-report html --cov-report term --cov=vcg tests
+          pytest -svv --cov-report html --cov-report term --cov=vcg tests
           python scripts/coverage_badge.py --file-path ${GITHUB_WORKSPACE}/htmlcov/badge-info.json
         env:
           ALI_ACCESSKEY_ID: ${{ secrets.ALI_ACCESSKEY_ID }}
@@ -76,8 +92,20 @@ jobs:
           ALI_APP_KEY: ${{ secrets.ALI_APP_KEY }}
           PROXY_API_KEY: ${{ secrets.PROXY_API_KEY }}
 
-      - if: ${{ matrix.python-version == '3.11' }}
-        name: Get coverage badge file name
+      # Update model cache if models get updated
+      - name: Save new models to cache if needed
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            ~/.cache/clip
+            ~/.cache/huggingface/hub
+          key: models-${{ matrix.os }}-${{ env.NEW_MODEL_CACHE_HASH }}
+        # Only save cache if the hash has changed
+        if: env.NEW_MODEL_CACHE_HASH != env.OLD_MODEL_CACHE_HASH
+
+      # Prepare git info
+      - name: Get coverage badge file name
+        if: ${{ matrix.python-version == '3.11' }}
         run: |
           # var REF = 'refs/pull/27/merge.json';
           REF=${{ github.ref }}
@@ -92,8 +120,9 @@ jobs:
           # process.env.BRANCH = 'pull_27';
           echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
 
-      - if: ${{ matrix.python-version == '3.11' }}
-        name: Upload coverage badge to gist
+      # Upload coverage badge info file
+      - name: Upload coverage badge to gist
+        if: ${{ matrix.python-version == '3.11' }}
         uses: exuanbo/actions-deploy-gist@v1
         with:
           token: ${{ secrets.GIST_SECRET }}

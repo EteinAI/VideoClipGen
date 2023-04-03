@@ -1,0 +1,177 @@
+{
+  "audio": [
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/0.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/1.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/2.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/3.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/4.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/5.wav",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/6.wav"
+  ],
+  "assets": [
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/0.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/23-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/1.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/29-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/2.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/21-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/3.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/16-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/4.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/14-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/5.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/17-1.jpg"
+      ]
+    },
+    {
+      "audio": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/wav/6.wav",
+      "frames": [
+        "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/24-1.jpg"
+      ]
+    }
+  ],
+  "bgm": "/home/ubuntu/VideoClipGen/tests/data/bgm/bgm004.m4a",
+  "cwd": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a",
+  "frames": [
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/23-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/29-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/21-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/16-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/14-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/17-1.jpg"
+    ],
+    [
+      "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/retrieve/selected/24-1.jpg"
+    ]
+  ],
+  "id": "bd72d876-5d20-4db5-bbcd-4ad0a0c8186a",
+  "images": [
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/35-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/22-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/5-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/2-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/33-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/8-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/9-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/24-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/36-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/19-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/38-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/6-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/23-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/31-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/29-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/1-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/20-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/26-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/4-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/16-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/10-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/30-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/21-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/13-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/15-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/32-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/37-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/25-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/17-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/27-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/7-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/12-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/18-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/14-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/3-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/11-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/28-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/34-1.jpg",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/images/0-1.jpg"
+  ],
+  "instructions": [
+    "平行世界 | 雅琪诺新品窗帘系列——和光同尘",
+    "场景:整体介绍, 关键词: 传统文化, 文案: 传承千年的传统文化，淡泊宁静的中式生活哲学，雅琪诺新品「和光同尘」窗帘系列，以经典纹样为灵感，融入时尚元素，展现新时代的中国风。",
+    "场景:中式山水FL8166、FL8191, 关键词: 山之沉稳, 文案: 山水画中的气韵神，如梦如幻的美丽风景，FL8166与FL8191，将山之沉稳、云之悠闲融入设计中，创造优雅艺术的空间氛围。",
+    "场景:石纹FL8184, 关键词: 空灵大气, 文案: 石之美的抽象与空灵，与中国传统审美相得益彰，FL8184石纹窗帘，在流纹的大气奔放中表现出张力十足，营造出富有活力但又宁静的空间感。",
+    "场景:米字纹FL8164, 关键词: 富贵吉祥, 文案: 米字纹的构成源自田字和对角线，是中式传统文化的象征之一，FL8164米字纹窗帘，蕴含着富贵吉祥的美好寓意，为您的家居增添传统文化韵味。",
+    "场景:平行世界 | 雅琪诺新品窗帘系列——和光同尘（1）, 关键词: 时尚元素, 文案: 平行世界中的时尚元素，还原了传统文化的经典魅力，雅琪诺新品「和光同尘」窗帘系列，用时尚演绎中国风。",
+    "场景:像素3 | 牵引时光，绣织绝美国韵（下篇）, 关键词: 绝美国韵, 文案: 像素3牵引时光，绣织绝美国韵，雅琪诺新品「和光同尘」窗帘系列，重制传统纹样，赋予其全新时尚属性，展现出中式设计的绝美国韵。"
+  ],
+  "kfa": [
+    "zoom_out",
+    "pan_left",
+    "zoom_out",
+    "zoom_in",
+    "zoom_out",
+    "zoom_out",
+    "zoom_in"
+  ],
+  "originTitle": "平行世界 | 雅琪诺新品窗帘系列——和光同尘（3）",
+  "output": "output.mp4",
+  "prompter": "ScenePrompter",
+  "sentences": [
+    "和光同尘——《道德经》论道，说其“渊兮，似万物之宗，挫其锐，解其纷，和其光，同其尘。",
+    "湛兮，似或存”。",
+    "无为而治，便成了“不争而善胜”，这种传统文化便形成了一种淡泊宁静的中式生活哲学。",
+    "雅琪诺新品窗帘系列「和光同尘」，从传统文化中汲取设计灵感，“重制”数款经典纹样，赋予其全新的时尚属性，诠释新时代的立面软装中国风。",
+    "中式山水FL8166、FL8191中式山水追求其气与韵、形与神、情与物的统一，是东方绘画、艺术及装饰领域的典型代表。",
+    "将山水融入布艺，即可以山之沉稳，云之悠闲来营造优雅、厚重且富有艺术底蕴的艺术空间。",
+    "FL8166FL8191石纹FL8184国人素有“厅无石不华、斋无石不雅”的认知，石之美的抽象与空灵和中国传统审美文化的精神相得益彰，石纹中的流纹大气奔放、张力十足，使得空间宁静但又充满活力。",
+    "米字纹FL8164米字纹由田字及对角线构成，呈正方及长方或方格十字加点等多种形式，初现于战国时期陶器，尤以吴越为最，后多见于窗棂、纹饰及现代装饰中，寓意富贵吉祥，极具中式传统意味。",
+    "平行世界 | 雅琪诺新品窗帘系列——和光同尘（1）平行世界 | 雅琪诺新品窗帘系列——和光同尘（2）像素3 | 牵引时光，绣织绝美国韵（下篇）为YAKINO雅琪诺点赞。"
+  ],
+  "summaries": [
+    "平行世界 | 雅琪诺新品窗帘系列——和光同尘",
+    "传承千年的传统文化，淡泊宁静的中式生活哲学，雅琪诺新品「和光同尘」窗帘系列，以经典纹样为灵感，融入时尚元素，展现新时代的中国风。",
+    "山水画中的气韵神，如梦如幻的美丽风景，FL8166与FL8191，将山之沉稳、云之悠闲融入设计中，创造优雅艺术的空间氛围。",
+    "石之美的抽象与空灵，与中国传统审美相得益彰，FL8184石纹窗帘，在流纹的大气奔放中表现出张力十足，营造出富有活力但又宁静的空间感。",
+    "米字纹的构成源自田字和对角线，是中式传统文化的象征之一，FL8164米字纹窗帘，蕴含着富贵吉祥的美好寓意，为您的家居增添传统文化韵味。",
+    "平行世界中的时尚元素，还原了传统文化的经典魅力，雅琪诺新品「和光同尘」窗帘系列，用时尚演绎中国风。",
+    "像素3牵引时光，绣织绝美国韵，雅琪诺新品「和光同尘」窗帘系列，重制传统纹样，赋予其全新时尚属性，展现出中式设计的绝美国韵。"
+  ],
+  "title": "平行世界 | 雅琪诺新品窗帘系列——和光同尘",
+  "url": "https://mp.weixin.qq.com/s/0RlEatF4jMpDsRoQXj80dw",
+  "video": "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/output.mp4",
+  "videos": [
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/0.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/1.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/2.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/3.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/4.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/5.mp4",
+    "/home/ubuntu/www/vcg/assets/bd72d876-5d20-4db5-bbcd-4ad0a0c8186a/video/6.mp4"
+  ],
+  "voice": "xiaoxian",
+  "voice_ali": "xiaoxian"
+}

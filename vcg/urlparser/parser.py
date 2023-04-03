@@ -93,12 +93,13 @@ def split_frames(images, outdir):
       stream,
       os.path.join(outdir, f'{i}-%d.jpg'),
       # avoid dropping frames
+      # fps_mode='passthrough',
       vsync=0,
       pix_fmt='yuvj420p',
       # 10 frames maximum
       vframes=10,
     )
-    ffmpeg.run(stream)
+    ffmpeg.run(stream, quiet=True)
 
   return [str(p) for p in Path(outdir).glob('**/*.jpg')]
 

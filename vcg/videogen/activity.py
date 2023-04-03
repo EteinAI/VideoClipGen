@@ -21,8 +21,11 @@ async def generate_video(params) -> list[str]:
 async def concat_video(params) -> tuple[str, str, list[str]]:
   print('Concatenating video...')
 
-  # HACK hardcoded keyframe animations
   workspace = os.path.join(params['cwd'], 'video')
+  if not os.path.exists(workspace):
+    os.makedirs(workspace)
+
+  # HACK hardcoded keyframe animations
   videos, names = keyframe(videos=params['videos'], cwd=workspace)
 
   # TODO dont generate temp file, use ffmpeg pipe instead
