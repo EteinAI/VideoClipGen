@@ -6,6 +6,7 @@ from temporalio.worker import Worker
 
 
 async def main(server: str, task_queue: str, activities):
+  print(f'Server: {server}')
   print(f'Task queue: {task_queue}')
 
   # Create client connected to server at the given address
@@ -16,7 +17,7 @@ async def main(server: str, task_queue: str, activities):
   await worker.run()
 
 
-def run_activity(activities, task_queue='default'):
+def run_activity(activities, task_queue='vcg'):
   parser = argparse.ArgumentParser()
   parser.add_argument('--server', default='localhost:7233')
   parser.add_argument('--task-queue')

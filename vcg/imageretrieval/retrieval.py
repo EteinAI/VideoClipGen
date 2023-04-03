@@ -12,39 +12,51 @@ from multilingual_clip import pt_multilingual_clip as lang
 import transformers
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-image_model_name = 'ViT-L/14'  # @param {type:"string"}
-lang_model_name = 'M-CLIP/XLM-Roberta-Large-Vit-L-14'  # @param {type:"string"}
 
 
 class TextEmbeddings:
+  model_name = 'M-CLIP/XLM-Roberta-Large-Vit-L-14'
+
   def __init__(self) -> None:
-    super().__init__()
-    self.model = lang.MultilingualCLIP.from_pretrained(lang_model_name)
-    self.tokenizer = transformers.AutoTokenizer.from_pretrained(lang_model_name)
+    self._model = lang.MultilingualCLIP.from_pretrained(self.model)
+    self._tokenizer = transformers.AutoTokenizer.from_pretrained(self.model)
 
   def encode(self, sentences: list[str]):
     """Get text embeddings for a list of sentences."""
-
     with torch.no_grad():
-      embeddings = self.model.forward(sentences, self.tokenizer)
+      embeddings = self._model.forward(sentences, self._tokenizer)
       embeddings /= embeddings.norm(dim=-1, keepdim=True)
       return embeddings.detach().cpu().numpy()
 
+  @property
+  def model(self):
+    return TextEmbeddings.model_name
+
 
 class ImageEmbeddings:
+  model_name = 'ViT-L/14'
+
   def __init__(self) -> None:
     super().__init__()
-    self.model, self.preprocess = clip.load(image_model_name, device=device)
+    self._model, self._preprocess = clip.load(self.model, device=device)
 
   def encode(self, image_files: list[str]):
     """Get image embeddings for a list of image files."""
-
-    image_tensors = [self.preprocess(Image.open(f)).unsqueeze(0).to(device)
+    image_tensors = [self._preprocess(Image.open(f)).unsqueeze(0).to(device)
                      for f in image_files]
     with torch.no_grad():
-      embeddings = np.vstack([self.model.encode_image(tensor).cpu().numpy()
+      embeddings = np.vstack([self._model.encode_image(tensor).cpu().numpy()
                               for tensor in image_tensors])
       return embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+
+  @property
+  def model(self):
+    return ImageEmbeddings.model_name
+
+
+# preloaded models
+image_encoder = ImageEmbeddings()
+text_encoder = TextEmbeddings()
 
 
 def clustering(embeddings, k=2) -> list[list[int]]:
@@ -70,8 +82,8 @@ def retrieve(sentences, images):
   """Retrieve images for a list of sentences."""
 
   images = sorted(images)
-  image_embeddings = ImageEmbeddings().encode(images)
-  text_embeddings = TextEmbeddings().encode(sentences)
+  image_embeddings = image_encoder.encode(images)
+  text_embeddings = text_encoder.encode(sentences)
 
   # HACK! assume the majority group is the one contains the query image
   groups = clustering(image_embeddings, k=2)
