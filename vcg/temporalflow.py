@@ -13,9 +13,21 @@ from temporalio.exceptions import ApplicationError, FailureError
 @activity.defn(name='prepare')
 async def prepare(params) -> str:
   import os
+
+  # bmg directory
+  if os.getenv('VCG_BGM_DIR') is None:
+    test_bgm = os.path.abspath(os.path.join(
+      os.path.dirname(__file__),
+      '../tests/data/bgm',
+    ))
+    os.environ.setdefault('VCG_BGM_ROOT', os.path.abspath(test_bgm))
+  print(f'VCG_BGM_ROOT: {os.getenv("VCG_BGM_ROOT")}')
+
+  # workspace
   cwd = os.getenv('VCG_WORKSPACE', default=os.path.abspath('./data'))
   workspace = os.path.join(cwd, params['id'])
   os.makedirs(workspace)
+
   return workspace
 
 
@@ -195,7 +207,7 @@ class VideoClipGen:
 
     # concat video clips
     try:
-      params['video'] = await workflow.execute_activity(
+      params['video'], params['bgm'] = await workflow.execute_activity(
         'concat_video',
         params,
         # task_queue='video-generation',

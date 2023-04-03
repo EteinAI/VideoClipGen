@@ -18,18 +18,16 @@ async def generate_video(params) -> list[str]:
 
 
 @activity.defn(name='concat_video')
-async def concat_video(params) -> str:
+async def concat_video(params) -> tuple[str, str]:
   print('Concatenating video...')
 
   # TODO dont generate temp file, use ffmpeg pipe instead
   temp = concat(videos=params['videos'],
                 output=os.path.join(params['cwd'], 'temp.mp4'))
+  _, bgm_file = BGM.instance().random()
   output = os.path.join(params['cwd'], params['output'])
 
-  _, bgm_file = BGM.instance().random()
-  params['bgm'] = bgm_file
-
-  return audio_mix(temp, bgm_file, output=output)
+  return audio_mix(temp, bgm_file, output=output), bgm_file
 
 
 if __name__ == '__main__':
