@@ -19,7 +19,7 @@ async def prepare(params) -> str:
 # Import our activity, passing it through the sandbox
 with workflow.unsafe.imports_passed_through():
   from urlparser.activity import parse_url
-  from textsummary.activity import summarize
+  from textsummary.activity import summary_and_title
   from speechsynthesis.activity import synthesize_speech
   from videogen.activity import generate_video, concat_video
 
@@ -92,8 +92,8 @@ class VideoClipGen:
     )
 
     # text summarizer
-    params['summaries'], params['instructions'] = await workflow.execute_activity(
-      'summarize',
+    params['summaries'], params['instructions'], params['title'] = await workflow.execute_activity(
+      'summary_and_title',
       params,
       # task_queue='text-summary',
       schedule_to_close_timeout=timedelta(seconds=180)
@@ -165,6 +165,7 @@ class VideoClipGen:
 
     # update workflow status
     self._set_progress('video', 'success')
+    self._progress['title'] = params['title']
     self._progress['output'] = '/'.join([params['id'], params['output']])
 
     return params
@@ -183,7 +184,7 @@ async def main(server: str, task_queue: str):
   worker = Worker(
     client,
     task_queue=task_queue,
-    activities=[prepare, parse_url, summarize,
+    activities=[prepare, parse_url, summary_and_title,
                 synthesize_speech, generate_video, concat_video],
     workflows=[VideoClipGen]
   )

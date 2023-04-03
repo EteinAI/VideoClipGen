@@ -6,7 +6,7 @@ import os
 import time
 
 from urlparser.activity import parse_url
-from textsummary.activity import summarize
+from textsummary.activity import summary_and_title
 from imageretrieval.activity import retrieve_image
 from speechsynthesis.activity import synthesize_speech
 from videogen.activity import generate_video, concat_video
@@ -16,7 +16,6 @@ async def main(params):
   print(f'Inputs: {params}')
 
   params['id'] = time.strftime('%Y%m%d-%H%M%S', time.localtime())
-  params['output'] = params['output'] if 'output' in params else 'output.mp4'
   if 'voice_ali' in params:
     params['voice'] = params['voice_ali']
 
@@ -30,7 +29,8 @@ async def main(params):
   params['sentences'], params['images'] = await parse_url(params)
 
   # text summarizer
-  params['summaries'], params['instructions'] = await summarize(params)
+  params['summaries'], params['instructions'], title = await summary_and_title(params)
+  print(f'Title: {title}')
 
   # image retrieval and speech synthesis
   frames = await retrieve_image(params)
@@ -48,7 +48,9 @@ async def main(params):
     raise RuntimeError('Number of video and audio clips do not match')
 
   # concat video clips
+  params['output'] = f'{title}.mp4'
   output = await concat_video(params)
+  print(f'Final output: {output}')
 
   return output
 

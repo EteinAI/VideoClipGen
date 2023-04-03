@@ -3,6 +3,7 @@
 import os
 
 from textsummary.prompts import Prompter
+from textsummary.generator import Generator
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -70,6 +71,24 @@ def proxy_summary(
   for event in client.events():
     if event.event == 'result':
       answer = json.loads(event.data)['response']
-      return prompter.summaries(answer), prompter.instructions(answer)
+      return prompter.transform(answer)
 
   return [], []
+
+
+def proxy_summary_title(
+  text: str,
+  summary_prompter: Prompter,
+  title_prompter: Prompter,
+) -> tuple[list[str], list[str], str]:
+  generator = Generator()
+
+  # generate summaries and instructions
+  response = generator.query(text, prompter=summary_prompter)
+  summaries, instructions = summary_prompter.transform(response)
+
+  # generate title
+  response = generator.query(text, prompter=title_prompter)
+  title = title_prompter.transform(response)
+
+  return summaries, instructions, title
