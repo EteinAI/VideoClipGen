@@ -1,4 +1,3 @@
-import os
 import asyncio
 import logging
 import json
@@ -13,7 +12,9 @@ from temporalio.exceptions import ApplicationError, FailureError
 
 @activity.defn(name='prepare')
 async def prepare(params) -> str:
-  workspace = os.path.abspath(os.path.join(params['cwd'], params['id']))
+  import os
+  cwd = os.getenv('VCG_WORKSPACE', default=os.path.abspath('./data'))
+  workspace = os.path.join(cwd, params['id'])
   os.makedirs(workspace)
   return workspace
 
@@ -32,7 +33,7 @@ class VideoClipGen:
     self._progress = {
       'runId': '',
       'output': '',
-      'workspace': {'status': 'pending', 'startTime': 0},
+      'prepare': {'status': 'pending', 'startTime': 0},
       'parser': {'status': 'pending', 'startTime': 0},
       'assets': {'status': 'pending', 'startTime': 0},
       'video': {'status': 'pending', 'startTime': 0},
@@ -71,7 +72,7 @@ class VideoClipGen:
 
     # update workflow status
     self._progress['runId'] = workflow.info().run_id
-    self._set_progress('workspace', 'running')
+    self._set_progress('prepare', 'running')
 
     # preprocess workflow parameters
     # TODO Find better algorithm for generating id to make it more readable
@@ -82,16 +83,15 @@ class VideoClipGen:
       params['voice'] = params['voice_ali']
 
     # prepare workspace for data storage
-    workspace = await workflow.execute_activity(
+    params['cwd'] = await workflow.execute_activity(
       prepare,
       params,
       task_queue='vcg',
       schedule_to_close_timeout=timedelta(seconds=60),
     )
-    params['cwd'] = workspace
 
     # update workflow status
-    self._set_progress('workspace', 'success')
+    self._set_progress('prepare', 'success')
     self._set_progress('parser', 'running')
 
     # url crawler
