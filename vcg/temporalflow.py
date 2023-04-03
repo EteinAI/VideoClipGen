@@ -20,7 +20,7 @@ async def prepare(params) -> str:
       os.path.dirname(__file__),
       '../tests/data/bgm',
     ))
-    os.environ.setdefault('VCG_BGM_ROOT', os.path.abspath(test_bgm))
+    os.environ['VCG_BGM_ROOT'] = os.path.abspath(test_bgm)
   print(f'VCG_BGM_ROOT: {os.getenv("VCG_BGM_ROOT")}')
 
   # workspace

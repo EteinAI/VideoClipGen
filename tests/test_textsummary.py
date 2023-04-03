@@ -29,6 +29,15 @@ def article():
   '''
 
 
+@pytest.fixture
+def title():
+  return [
+    '平行世界 | 雅琪诺新品窗帘系列——和光同尘（二）',
+    '软装案例分享 | 十余色彩，打造和谐高级的软装空间',
+    '闪耀中装协住宅产业年会，恒洁获2022年红鼎奖最高奖',
+  ][0]
+
+
 @pytest.mark.parametrize('prompter', [
   SimplePrompter(),
   ScenePrompter(),
@@ -55,9 +64,10 @@ def test_generator(article, prompter):
   (SimplePrompter(), TitleSimplePrompter()),
   (ScenePrompter(), TitleScenePrompter())
 ])
-def test_summary_and_title(article, prompters):
+def test_summary_and_title(article, title, prompters):
   summaries, instructions, title = proxy_summary_title(
     text=article,
+    title=title,
     summary_prompter=prompters[0],
     title_prompter=prompters[1],
   )
