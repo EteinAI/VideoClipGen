@@ -12,6 +12,15 @@ from speechsynthesis.activity import synthesize_speech
 from videogen.activity import generate_video, concat_video
 
 
+# use bgm testing dat if VCG_BGM_ROOT is not set
+test_bgm = os.path.abspath(os.path.join(
+  os.path.dirname(__file__),
+  '../tests/data/bgm',
+))
+os.environ.setdefault('VCG_BGM_ROOT', os.path.abspath(test_bgm))
+print(f'VCG_BGM_ROOT: {os.getenv("VCG_BGM_ROOT")}')
+
+
 async def main(params):
   print(f'Inputs: {params}')
 
@@ -49,7 +58,8 @@ async def main(params):
 
   # concat video clips
   params['output'] = f'{title}.mp4'
-  output = await concat_video(params)
+  output, bgm = await concat_video(params)
+  print(f'BGM: {bgm}')
   print(f'Final output: {output}')
 
   return output

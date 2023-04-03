@@ -15,5 +15,8 @@
     "--max-line-length=80", "--indent-size=2"
   ],
   "python.linting.mypyEnabled": false,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  }
 }
