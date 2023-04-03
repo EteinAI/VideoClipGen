@@ -1,7 +1,6 @@
 
 import coverage
 import json
-import os
 
 
 COLOR_RANGES = [

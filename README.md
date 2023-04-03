@@ -68,7 +68,7 @@ Install jupyterlab for local development
 
 ```bash
 # install jupyterlab
-conda install -c conda-forge jupyterlab
+conda install -c conda-forge jupyterlab ipywidgets
 ```
 
 **Install dependencies**

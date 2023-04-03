@@ -1,12 +1,14 @@
 import os
 import asyncio
+import logging
 import json
 
 from datetime import timedelta
 
 from temporalio import activity
 from temporalio import workflow
-from temporalio import exceptions
+from temporalio.common import RetryPolicy
+from temporalio.exceptions import ApplicationError, FailureError
 
 
 @activity.defn(name='prepare')
@@ -55,6 +57,15 @@ class VideoClipGen:
 
   @workflow.run
   async def run(self, params):
+    retry_policy = RetryPolicy(
+      initial_interval=timedelta(seconds=2),
+      maximum_attempts=3,
+      non_retryable_error_types=[
+        "AttributeError",
+        "RuntimeError",
+      ],
+    )
+
     print(f'New workflow {workflow.info().run_id}...')
     print(f'Input parameters\n{params}')
 
@@ -84,26 +95,40 @@ class VideoClipGen:
     self._set_progress('parser', 'running')
 
     # url crawler
-    params['sentences'], params['images'] = await workflow.execute_activity(
-      'parse_url',
-      params,
-      # task_queue='url-parser',
-      schedule_to_close_timeout=timedelta(seconds=180)
-    )
+    try:
+      params['sentences'], params['images'] = await workflow.execute_activity(
+        'parse_url',
+        params,
+        # task_queue='url-parser',
+        schedule_to_close_timeout=timedelta(seconds=180),
+        retry_policy=retry_policy,
+      )
+    except FailureError as e:
+      # update status
+      self._set_progress('parser', 'error', 'UrlParserError')
+      logging.exception(e.message)
+      raise ApplicationError('Failed to parse URL', e)
 
     # text summarizer
-    params['summaries'], params['instructions'], params['title'] = await workflow.execute_activity(
-      'summary_and_title',
-      params,
-      # task_queue='text-summary',
-      schedule_to_close_timeout=timedelta(seconds=180)
-    )
+    try:
+      params['summaries'], params['instructions'], params['title'] = \
+        await workflow.execute_activity(
+          'summary_and_title',
+          params,
+          # task_queue='text-summary',
+          schedule_to_close_timeout=timedelta(seconds=180),
+          retry_policy=retry_policy,
+        )
+    except FailureError as e:
+      # update status
+      self._set_progress('parser', 'error', 'SummaryError')
+      logging.exception(e.message)
+      raise ApplicationError('SummaryError', e)
 
     if len(params['images']) < len(params['summaries']):
       # set status
       self._set_progress('parser', 'error', 'TooFewImages')
-      raise exceptions.ApplicationError(
-        'Too few images compare with summaries')
+      raise ApplicationError('Too few images compare with summaries')
     else:
       self._set_progress('parser', 'success')
 
@@ -111,28 +136,35 @@ class VideoClipGen:
     self._set_progress('assets', 'running')
 
     # tts and image retrieval
-    frames, audio = await asyncio.gather(
-      # retrieve image frames
-      workflow.execute_activity(
-        'retrieve_image',
-        params,
-        task_queue='compute-all',
-        schedule_to_close_timeout=timedelta(seconds=300)
-      ),
-      # synthesize speech
-      # if `'voice' in params` then use the specified voice
-      workflow.execute_activity(
-        'synthesize_speech',
-        params,
-        # task_queue='speech-synthesis',
-        schedule_to_close_timeout=timedelta(seconds=300)
+    try:
+      frames, audio = await asyncio.gather(
+        # retrieve image frames
+        workflow.execute_activity(
+          'retrieve_image',
+          params,
+          task_queue='compute-all',
+          schedule_to_close_timeout=timedelta(seconds=300),
+          retry_policy=retry_policy,
+        ),
+        # synthesize speech
+        # if `'voice' in params` then use the specified voice
+        workflow.execute_activity(
+          'synthesize_speech',
+          params,
+          # task_queue='speech-synthesis',
+          schedule_to_close_timeout=timedelta(seconds=300),
+          retry_policy=retry_policy,
+        )
       )
-    )
+    except FailureError as e:
+      # update status
+      self._set_progress('assets', 'error', 'AssetsGenError')
+      logging.exception(e.message)
+      raise ApplicationError('Failed to generate image/wav.', e)
 
     if len(frames) != len(audio):
       self._set_progress('assets', 'error', 'AssetsMismatch')
-      raise exceptions.ApplicationError(
-        'Number of frames and audio clips do not match')
+      raise ApplicationError('Number of frames and audio clips do not match')
     else:
       self._set_progress('assets', 'success')
 
@@ -142,26 +174,39 @@ class VideoClipGen:
     # update workflow status
     self._set_progress('video', 'running')
 
-    # generate video clips
-    params['videos'] = await workflow.execute_activity(
-      'generate_video',
-      params,
-      # task_queue='video-generation',
-      schedule_to_close_timeout=timedelta(seconds=180)
-    )
+    try:
+      # generate video clips
+      params['videos'] = await workflow.execute_activity(
+        'generate_video',
+        params,
+        # task_queue='video-generation',
+        schedule_to_close_timeout=timedelta(seconds=180),
+        retry_policy=retry_policy,
+      )
+    except FailureError as e:
+      # update status
+      self._set_progress('video', 'error', 'VideoGenError')
+      logging.exception(e.message)
+      raise ApplicationError('Failed to generate videos.', e)
 
     if len(params['videos']) != len(audio):
       self._set_progress('video', 'error', 'VideoGenError')
-      raise exceptions.ApplicationError(
-        'Number of video and audio clips do not match')
+      raise ApplicationError('Number of video and audio clips do not match')
 
     # concat video clips
-    params['video'] = await workflow.execute_activity(
-      'concat_video',
-      params,
-      # task_queue='video-generation',
-      schedule_to_close_timeout=timedelta(seconds=180)
-    )
+    try:
+      params['video'] = await workflow.execute_activity(
+        'concat_video',
+        params,
+        # task_queue='video-generation',
+        schedule_to_close_timeout=timedelta(seconds=180),
+        retry_policy=retry_policy,
+      )
+    except FailureError as e:
+      # update status
+      self._set_progress('video', 'error', 'VideoConcatError')
+      logging.exception(e.message)
+      raise ApplicationError('Failed to concat videos.', e)
 
     # update workflow status
     self._set_progress('video', 'success')
