@@ -48,9 +48,14 @@ async def summary_and_title(params) -> tuple[list[str], list[str], str]:
   # generate summaries, instructions and title
   summaries, instructions, title = proxy_summary_title(
     text='\n'.join(params['sentences']),
+    title=params['title'],
     summary_prompter=summary_prompter,
     title_prompter=title_prompter,
   )
+
+  # Insert title to the beginning of summaries and instructions
+  summaries.insert(0, title)
+  instructions.insert(0, title)
 
   # save to file
   with open(os.path.join(params['cwd'], 'summaries.json'), 'w') as fp:
@@ -61,7 +66,7 @@ async def summary_and_title(params) -> tuple[list[str], list[str], str]:
     }, fp, ensure_ascii=False, indent=2)
     fp.close()
 
-  return summaries, instructions, str(title)
+  return summaries, instructions, title
 
 
 if __name__ == '__main__':

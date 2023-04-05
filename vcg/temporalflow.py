@@ -108,13 +108,16 @@ class VideoClipGen:
 
     # url crawler
     try:
-      params['sentences'], params['images'] = await workflow.execute_activity(
-        'parse_url',
-        params,
-        # task_queue='url-parser',
-        schedule_to_close_timeout=timedelta(seconds=180),
-        retry_policy=retry_policy,
+      params['sentences'], params['images'], params['title'] = (
+        await workflow.execute_activity(
+          'parse_url',
+          params,
+          # task_queue='url-parser',
+          schedule_to_close_timeout=timedelta(seconds=180),
+          retry_policy=retry_policy,
+        )
       )
+      params['originTitle'] = params['title']
     except FailureError as e:
       # update status
       self._set_progress('parser', 'error', 'UrlParserError')
