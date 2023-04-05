@@ -81,6 +81,12 @@ def clustering(embeddings, k=2) -> list[list[int]]:
 def retrieve(sentences, images):
   """Retrieve images for a list of sentences."""
 
+  # HACK! hardcoded preprocessing
+  # Drop images whose width/height ratio larger that 2
+  sizes = [Image.open(f).size for f in images]
+  images = [images[i]
+            for i in range(len(images)) if sizes[i][0] / sizes[i][1] < 2]
+
   images = sorted(images)
   image_embeddings = image_encoder.encode(images)
   text_embeddings = text_encoder.encode(sentences)

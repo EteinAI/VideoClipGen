@@ -44,7 +44,8 @@ TL;DR 请为以上字提供摘要，要求如下:
     return instructions, instructions
 
   def instructions(self, response: str) -> list[str]:
-    return [s for s in re.split(r'。|；', response) if len(s) > 0]
+    # HACK! Keep only sentences with length > 10
+    return [s for s in re.split(r'。|；', response) if len(s) > 10]
 
   def summaries(self, response: str) -> list[str]:
     return self.instructions(response)
