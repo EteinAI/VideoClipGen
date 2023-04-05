@@ -35,11 +35,16 @@ async def main(params):
   print(f'Workspace: {workspace}')
 
   # parse url
-  params['sentences'], params['images'] = await parse_url(params)
+  params['sentences'], params['images'], params['title'] = (
+    await parse_url(params)
+  )
+  print(f'Origin title: {params["title"]}')
 
   # text summarizer
-  params['summaries'], params['instructions'], title = await summary_and_title(params)
-  print(f'Title: {title}')
+  params['summaries'], params['instructions'], params['title'] = (
+    await summary_and_title(params)
+  )
+  print(f'New title: {params["title"]}')
 
   # image retrieval and speech synthesis
   frames = await retrieve_image(params)
@@ -57,7 +62,7 @@ async def main(params):
     raise RuntimeError('Number of video and audio clips do not match')
 
   # concat video clips
-  params['output'] = f'{title}.mp4'
+  params['output'] = f'{params["title"]}.mp4'
   output, bgm, kfa = await concat_video(params)
   print(f'BGM: {bgm}')
   print(f'Keyframe animations: {kfa}')

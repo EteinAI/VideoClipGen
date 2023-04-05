@@ -96,13 +96,16 @@ class ScenePrompter(Prompter):
 
 
 class TitleScenePrompter(Prompter):
-  def __init__(self, length=20):
+  def __init__(self):
     super().__init__()
     self._template = '''{text}
-帮我生成一个花哨的营销视频标题，标题为中文，注意字数限制在{length}字以内'''.format(
-      text='{text}',
-      length=length,
-    )
+这是一篇文章的标题, 请将这句话重新输出, 需求如下:
+- 完整保留其中的主要部分(如中文汉字)
+- 保持语义完整, 不要去除年份, 人名, 地名, 产品名等
+- 去掉次要部分, 比如括号以及括号中的内容
+- 不要改写, 不要增加额外内容, 不要增加额外的标点符号
+标题:
+'''.format(text='{text}')
 
   def prompt(self, text: str) -> str:
     return self._template.format(text=text)
