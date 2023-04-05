@@ -6,7 +6,6 @@ import ffmpeg
 import os
 from pathlib import Path
 
-from vcg.videogen.bgm import BGM
 from vcg.videogen.ffmpegcli import generate, keyframe, concat, audio_mix
 
 
@@ -107,78 +106,3 @@ def test_audio_mix(assets, tmp_path, BGM_instance):
     mixed = audio_mix(output, BGM_instance[key], mixed)
     valid, _ = validation(mixed)
     assert valid
-
-
-@pytest.fixture(scope='module')
-def BGM_instance():
-  workspace = os.path.dirname(__file__)
-  path = os.path.join(workspace, 'data', 'bgm')
-  os.environ['VCG_BGM_ROOT'] = path
-  return BGM()
-
-
-def test_BGM_random(BGM_instance):
-  key, path = BGM_instance.random()
-  assert key != ''
-  assert key == os.path.basename(path)
-  assert os.path.exists(path)
-  assert path == BGM_instance[key]
-
-
-def test_BGM_len(BGM_instance, bgms):
-  assert len(BGM_instance) == len(bgms)
-
-
-def test_BGM_all(BGM_instance):
-  all = BGM_instance.all()
-  assert len(all) == len(BGM_instance)
-  for key in all:
-    assert key in BGM_instance
-    assert key == os.path.basename(BGM_instance[key])
-    assert os.path.abspath(BGM_instance[key]) == BGM_instance[key]
-    assert os.path.exists(BGM_instance[key])
-
-
-def test_BGM_empty():
-  bgm = BGM(path=os.path.join(os.path.dirname(__file__), 'data', 'images'))
-  assert len(bgm) == 0
-  assert bgm.all() == []
-  assert bgm.random() == ('', '')
-
-
-def test_BGM_root():
-  with pytest.raises(RuntimeError) as e:
-    _ = BGM(path='/path/not/exists')
-    assert 'not exists' in str(e.value)
-  with pytest.raises(RuntimeError) as e:
-    tmp = os.getenv('VCG_BGM_ROOT')
-    if tmp is not None:
-      del os.environ['VCG_BGM_ROOT']
-    _ = BGM()
-    assert 'not specified' in str(e.value)
-    if tmp is not None:
-      os.environ['VCG_BGM_ROOT'] = tmp
-
-
-def test_BGM_singleton():
-  with pytest.raises(RuntimeError) as e:
-    tmp = os.getenv('VCG_BGM_ROOT')
-    if tmp is not None:
-      del os.environ['VCG_BGM_ROOT']
-    _ = BGM.instance()
-    assert 'not specified' in str(e.value)
-    if tmp is not None:
-      os.environ['VCG_BGM_ROOT'] = tmp
-
-  tmp = os.getenv('VCG_BGM_ROOT')
-  root = os.path.join(os.path.dirname(__file__), 'data', 'bgm')
-  os.environ['VCG_BGM_ROOT'] = root
-  bgm = BGM.instance()
-  if tmp is not None:
-    os.environ['VCG_BGM_ROOT'] = tmp
-  else:
-    del os.environ['VCG_BGM_ROOT']
-
-  assert bgm is not None
-  assert root == str(bgm._root)
-  assert bgm == BGM.instance()
