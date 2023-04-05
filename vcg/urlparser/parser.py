@@ -1,8 +1,10 @@
 
 import argparse
+import ffmpeg
 import json
 import os
 
+from pathlib import Path
 from hashlib import sha1
 from bs4 import BeautifulSoup
 import urllib.request as request
@@ -81,13 +83,33 @@ def get_images(body, path: str) -> list[str]:
   return image_paths
 
 
+def split_frames(images, outdir):
+  if not os.path.exists(outdir):
+    os.makedirs(outdir)
+
+  for i, image in enumerate(images):
+    stream = ffmpeg.input(image)
+    stream = ffmpeg.output(
+      stream,
+      os.path.join(outdir, f'{i}-%d.jpg'),
+      # avoid dropping frames
+      vsync=0,
+      pix_fmt='yuvj420p',
+      # 10 frames maximum
+      vframes=10,
+    )
+    ffmpeg.run(stream)
+
+  return [str(p) for p in Path(outdir).glob('**/*.jpg')]
+
+
 def parse(url: str, path: str) -> tuple[list[str], list[str], dict[str, str]]:
   soup = build_soup(url)
   body = soup.find(id='activity-detail')
 
   metadata = get_metadata(soup)
   sentences = get_paragraphs(body)
-  images = get_images(body, os.path.join(path, 'images'))
+  images = get_images(body, os.path.join(path, 'tmpimages'))
 
   with open(os.path.join(path, 'sentences.json'), 'w') as fp:
     json.dump(sentences, fp, ensure_ascii=False, indent=2)
@@ -96,7 +118,7 @@ def parse(url: str, path: str) -> tuple[list[str], list[str], dict[str, str]]:
     json.dump(metadata, fp, ensure_ascii=False, indent=2)
     fp.close()
 
-  return sentences, images, metadata
+  return sentences, split_frames(images, os.path.join(path, 'images')), metadata
 
 
 if __name__ == '__main__':
