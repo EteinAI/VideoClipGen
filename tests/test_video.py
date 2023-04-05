@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 from vcg.videogen.bgm import BGM
-from vcg.videogen.ffmpegcli import generate, concat, audio_mix
+from vcg.videogen.ffmpegcli import generate, keyframe, concat, audio_mix
 
 
 def validation(filename):
@@ -65,8 +65,24 @@ def test_generate(assets, tmp_path):
     valid, _ = validation(video)
     assert valid
 
-  output = os.path.join(tmp_path, 'output.mp4')
-  output = concat(videos=videos, output=output)
+
+def test_keyframe(assets, tmp_path):
+  videos = generate(assets=assets, cwd=tmp_path, verbose=True)
+  outputs, names = keyframe(videos=videos, cwd=tmp_path)
+  assert len(outputs) == len(videos)
+  assert len(names) == len(videos)
+  for output in outputs:
+    assert os.path.exists(output)
+    valid, _ = validation(output)
+    assert valid
+
+
+def test_concat(assets, tmp_path):
+  videos = generate(assets=assets, cwd=tmp_path, verbose=True)
+  outputs, _ = keyframe(videos=videos, cwd=tmp_path)
+  # videos = [os.path.join(tmp_path, f'{i}.mp4')
+  #           for i in range(len(assets))]
+  output = concat(videos=outputs, output=os.path.join(tmp_path, 'output.mp4'))
   assert os.path.exists(output)
   valid, _ = validation(output)
   assert valid
@@ -82,8 +98,8 @@ def bgms():
 # @pytest.mark.parametrize('bgmusic', *pytest.lazy_fixture('bgms'))
 def test_audio_mix(assets, tmp_path, BGM_instance):
   videos = generate(assets=assets, cwd=tmp_path, verbose=True)
-  output = os.path.join(tmp_path, 'output.mp4')
-  concat(videos=videos, output=output)
+  outputs, _ = keyframe(videos=videos, cwd=tmp_path)
+  output = concat(videos=outputs, output=os.path.join(tmp_path, 'output.mp4'))
 
   all = BGM_instance.all()
   for i, key in enumerate(all):
