@@ -207,12 +207,14 @@ class VideoClipGen:
 
     # concat video clips
     try:
-      params['video'], params['bgm'] = await workflow.execute_activity(
-        'concat_video',
-        params,
-        # task_queue='video-generation',
-        schedule_to_close_timeout=timedelta(seconds=180),
-        retry_policy=retry_policy,
+      params['video'], params['bgm'], params['kfa'] = (
+        await workflow.execute_activity(
+          'concat_video',
+          params,
+          # task_queue='video-generation',
+          schedule_to_close_timeout=timedelta(seconds=180),
+          retry_policy=retry_policy,
+        )
       )
     except FailureError as e:
       # update status

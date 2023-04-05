@@ -58,8 +58,9 @@ async def main(params):
 
   # concat video clips
   params['output'] = f'{title}.mp4'
-  output, bgm = await concat_video(params)
+  output, bgm, kfa = await concat_video(params)
   print(f'BGM: {bgm}')
+  print(f'Keyframe animations: {kfa}')
   print(f'Final output: {output}')
 
   return output
