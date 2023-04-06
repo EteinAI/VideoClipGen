@@ -65,6 +65,7 @@ jobs:
       - name: Pull data
         run: |
           echo "TODO: data management"
+          python -m scripts.load_models
 
       - name: Run tests with pytest
         run: |
