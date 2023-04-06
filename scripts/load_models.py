@@ -5,3 +5,4 @@ if __name__ == '__main__':
   # kind of HACK but works for now
   TextEmbeddings()
   ImageEmbeddings()
+  return 0
