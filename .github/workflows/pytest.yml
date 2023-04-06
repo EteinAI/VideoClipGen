@@ -81,9 +81,9 @@ jobs:
       - name: Try load/update models
         shell: bash
         run: |
-          echo "OLD_HF_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          echo "OLD_MODEL_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
           python -m scripts.load_models
-          echo "NEW_HF_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          echo "NEW_MODEL_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
           echo 'Load/update models...'
           echo 'Old model hash: ${{ env.OLD_MODEL_CACHE_HASH }}'
           echo 'New model hash: ${{ env.NEW_MODEL_CACHE_HASH }}'
