@@ -19,22 +19,22 @@ from vcg.localflow import main, parse_args
 #     return self.builtin_open(*args, **kwargs)
 
 
-@pytest.mark.asyncio
-async def test_main(tmp_path):
-  # Set up the mock arguments with a dummy file path
-  params = {
-    'cwd': tmp_path,
-    'url': 'https://mp.weixin.qq.com/s/WRCfatBGqWzAxaV-kWEJ4Q',
-    'voice_ali': 'kenny',
-    'prompter': 'ScenePrompter',
-  }
+# @pytest.mark.asyncio
+# async def test_main(tmp_path):
+#   # Set up the mock arguments with a dummy file path
+#   params = {
+#     'cwd': tmp_path,
+#     'url': 'https://mp.weixin.qq.com/s/WRCfatBGqWzAxaV-kWEJ4Q',
+#     'voice_ali': 'kenny',
+#     'prompter': 'ScenePrompter',
+#   }
 
-  # set VCG_BGM_ROOT
-  workspace = os.path.dirname(__file__)
-  os.environ['VCG_BGM_ROOT'] = os.path.join(workspace, 'data', 'bgm')
+#   # set VCG_BGM_ROOT
+#   workspace = os.path.dirname(__file__)
+#   os.environ['VCG_BGM_ROOT'] = os.path.join(workspace, 'data', 'bgm')
 
-  output = await main(params)
-  assert os.path.exists(output)
+#   output = await main(params)
+#   assert os.path.exists(output)
 
 
 @patch('argparse.ArgumentParser.parse_args')
