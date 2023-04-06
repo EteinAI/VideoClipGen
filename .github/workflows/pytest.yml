@@ -32,6 +32,8 @@ jobs:
       # For example, pypy-2.7 and pypy-3.8
       matrix:
         python-version: ["3.11"]
+        # TODO enable this when pyproject setup
+        # requirements: ['.[tests]', '.[compat_tests]']
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -48,14 +50,19 @@ jobs:
         id: python-setup
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: |
-            requirements.txt
-            requirements-test.txt
 
-      - name: Install deps
+      - name: Try to load cached dependencies
+        uses: actions/cache@v3
+        id: deps-cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: python-dependencies-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles(requirements.txt) }}-${{ hashFiles('requirements-test.txt') }}-${{ env.pythonLocation }}
+
+      - name: Install external dependencies on cache miss
         run: |
-          pip install -r requirements.txt -r requirements-test.txt
+          python -m pip install --no-cache-dir --upgrade pip
+          python -m pip install --no-cache-dir -r requirements.txt -r requirements-test.txt
+        if: steps.deps-cache.outputs.cache-hit != 'true'
 
       - name: Pull data
         run: |
