@@ -64,8 +64,8 @@ jobs:
           python -m pip install --no-cache-dir -r requirements.txt -r requirements-test.txt
         if: steps.deps-cache.outputs.cache-hit != 'true'
 
-      - name: Pull data
-        run: |
-          echo "TODO: data management"
-          python -m scripts.load_models
+#       - name: Pull data
+#         run: |
+#           echo "TODO: data management"
+#           python -m scripts.load_models
 
