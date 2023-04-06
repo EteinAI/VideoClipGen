@@ -68,3 +68,32 @@ jobs:
         run: |
           echo "TODO: data management"
           python -m scripts.load_models
+
+      - name: Restore models from cache
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            ~/.cache/clip
+            ~/.cache/huggingface/hub
+          key: models-${{ matrix.os }}-${{ env.NEW_MODEL_CACHE_HASH }}
+          restore-keys: |
+            models-${{ matrix.os }}-
+      
+      - name: Run unit tests
+        shell: bash
+        run: |
+          echo "OLD_HF_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          # pytest -sv tests/
+          echo "NEW_HF_CACHE_HASH=$(find ~/.cache/huggingface/hub ~/.cache/clip -type f -exec sha256sum {} + | LC_ALL=C sort | sha256sum | cut -d ' ' -f 1)" >> $GITHUB_ENV
+          echo '${{ env.OLD_MODEL_CACHE_HASH }}'
+          echo '${{ env.NEW_MODEL_CACHE_HASH }}'
+
+      - name: Save new models to cache
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            ~/.cache/clip
+            ~/.cache/huggingface/hub
+          key: models-${{ matrix.os }}-${{ env.NEW_MODEL_CACHE_HASH }}
+        # Only save cache if the hash has changed
+        if: env.NEW_MODEL_CACHE_HASH != env.OLD_MODEL_CACHE_HASH
