@@ -56,7 +56,7 @@ jobs:
         id: deps-cache
         with:
           path: ${{ env.pythonLocation }}
-          key: python-dependencies-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles(requirements.txt) }}-${{ hashFiles('requirements-test.txt') }}-${{ env.pythonLocation }}
+          key: python-dependencies-${{ matrix.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}-${{ hashFiles('requirements-test.txt') }}-${{ env.pythonLocation }}
 
       - name: Install external dependencies on cache miss
         run: |
