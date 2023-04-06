@@ -5,7 +5,7 @@ import pytest
 
 from unittest.mock import mock_open, patch, MagicMock
 
-from vcg.localflow import main, parse_args
+# from vcg.localflow import main, parse_args
 
 
 # How to mock open()
