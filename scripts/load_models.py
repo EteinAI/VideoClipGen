@@ -1,12 +1,12 @@
 import sys
 
-from vcg.imageretrieval.retrieval import TextEmbeddings, ImageEmbeddings
+import vcg.imageretrieval.retrieval
 
 if __name__ == '__main__':
   # create new object of each class to preload the models
   # kind of HACK but works for now
-#   TextEmbeddings()
+  # TextEmbeddings()
   print('Text model loaded')
-  ImageEmbeddings()
+  # ImageEmbeddings()
   print('Image model loaded')
   sys.exit(0)
