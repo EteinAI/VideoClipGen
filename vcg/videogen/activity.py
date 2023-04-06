@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from temporalio import activity
 
@@ -26,12 +27,20 @@ async def concat_video(params) -> tuple[str, str, list[str]]:
   videos, names = keyframe(videos=params['videos'], cwd=workspace)
 
   # TODO dont generate temp file, use ffmpeg pipe instead
-  temp = concat(videos=videos, output=os.path.join(params['cwd'], 'temp.mp4'))
-  _, bgm_file = BGM.instance().random()
+  temp = concat(
+    videos=videos,
+    size=params['size'] if 'size' in params else None,
+    output=os.path.join(params['cwd'], 'temp.mp4'),
+  )
   output = os.path.join(params['cwd'], params['output'])
 
   # add background music
-  return audio_mix(temp, bgm_file, output=output), bgm_file, names
+  _, bgm_file = BGM.instance().random()
+  if bgm_file != '':
+    shutil.copyfile(temp, output)
+    return output, bgm_file, names
+  else:
+    return audio_mix(temp, bgm_file, output=output), bgm_file, names
 
 
 if __name__ == '__main__':

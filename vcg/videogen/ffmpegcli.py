@@ -168,12 +168,13 @@ def keyframe(videos, cwd, verbose=False):
   return kfa_videos, kfa_names
 
 
-def concat(videos, output, size=default_size, verbose=False):
+def concat(videos, output, size=None, verbose=False):
   """
   Concatenate videos.
   Scale and pad the videos to the same size, then concatenate them.
   """
-  width, height = size
+
+  width, height = size or default_size
   filter_graphs = []
   for file in videos:
     input = ffmpeg.input(file)
