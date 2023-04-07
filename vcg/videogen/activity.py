@@ -3,7 +3,7 @@ import os
 from temporalio import activity
 
 from videogen.bgm import BGM
-from videogen.ffmpegcli import generate, concat, audio_mix
+from videogen.ffmpegcli import generate, keyframe, concat, audio_mix
 
 
 @activity.defn(name='generate_video')
@@ -18,16 +18,23 @@ async def generate_video(params) -> list[str]:
 
 
 @activity.defn(name='concat_video')
-async def concat_video(params) -> tuple[str, str]:
+async def concat_video(params) -> tuple[str, str, list[str]]:
   print('Concatenating video...')
 
+  workspace = os.path.join(params['cwd'], 'video')
+  if not os.path.exists(workspace):
+    os.makedirs(workspace)
+
+  # HACK hardcoded keyframe animations
+  videos, names = keyframe(videos=params['videos'], cwd=workspace)
+
   # TODO dont generate temp file, use ffmpeg pipe instead
-  temp = concat(videos=params['videos'],
-                output=os.path.join(params['cwd'], 'temp.mp4'))
+  temp = concat(videos=videos, output=os.path.join(params['cwd'], 'temp.mp4'))
   _, bgm_file = BGM.instance().random()
   output = os.path.join(params['cwd'], params['output'])
 
-  return audio_mix(temp, bgm_file, output=output), bgm_file
+  # add background music
+  return audio_mix(temp, bgm_file, output=output), bgm_file, names
 
 
 if __name__ == '__main__':

@@ -1,0 +1,4 @@
+[tool.coverage.run]
+omit = [
+  "vcg/temporalflow.py"
+]

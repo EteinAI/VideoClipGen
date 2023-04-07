@@ -4,6 +4,7 @@ import shutil
 from temporalio import activity
 
 from imageretrieval.retrieval import retrieve
+from imageretrieval.retrieval import ImageEmbeddings, TextEmbeddings
 
 
 @activity.defn(name='retrieve_image')
@@ -36,4 +37,10 @@ async def retrieve_image(params) -> list[list[str]]:
 
 if __name__ == '__main__':
   from workflow.base import run_activity
+
+  # HACK! print model name to preloaded models
+  print('Starting image retrieval activity...')
+  print(f'Image embedding model: {ImageEmbeddings.instance().name}')
+  print(f'Text embedding model: {TextEmbeddings.instance().name}')
+
   run_activity([retrieve_image], task_queue='image-retrieval')

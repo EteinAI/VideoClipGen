@@ -78,6 +78,7 @@ def proxy_summary(
 
 def proxy_summary_title(
   text: str,
+  title: str,
   summary_prompter: Prompter,
   title_prompter: Prompter,
 ) -> tuple[list[str], list[str], str]:
@@ -88,7 +89,7 @@ def proxy_summary_title(
   summaries, instructions = summary_prompter.transform(response)
 
   # generate title
-  response = generator.query(text, prompter=title_prompter)
+  response = generator.query(title, prompter=title_prompter)
   title = title_prompter.transform(response)
 
   return summaries, instructions, title
