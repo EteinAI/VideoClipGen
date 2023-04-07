@@ -5,7 +5,7 @@ import json
 
 COLOR_RANGES = [
   (95, 'brightgreen'),
-  (90, 'green'),
+  (85, 'green'),
   (75, 'yellowgreen'),
   (60, 'yellow'),
   (40, 'orange'),

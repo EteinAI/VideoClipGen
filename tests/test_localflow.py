@@ -55,14 +55,16 @@ def test_parse_args(
   args.voice_ali = 'someone'
   args.cwd = '/nowhere'
   args.prompter = 'nobody'
+
   params = parse_args()
+
   assert params['url'] == 'google.com'
   assert params['voice_ali'] == 'someone'
   assert params['cwd'] == '/nowhere'
   assert params['prompter'] == 'nobody'
   assert mock_args.call_count == 2
   assert mock_load.call_count == 1
-  assert mock_file.call_count > 1
+  mock_file.assert_any_call('dummy.json', 'rb')
 
 
 @pytest.mark.asyncio

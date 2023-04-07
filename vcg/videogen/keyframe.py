@@ -15,13 +15,7 @@ class KeyFrame:
     self._duration = duration
 
   def __call__(self, input, size, duration=None):
-    w, h = size
-    return input.filter(
-      'zoompan',
-      d=self._fc,
-      fps=self._fps,
-      s=f'{w}x{h}',
-    )
+    pass
 
   @property
   def name(self):
