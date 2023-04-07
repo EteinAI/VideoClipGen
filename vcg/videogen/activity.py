@@ -36,7 +36,7 @@ async def concat_video(params) -> tuple[str, str, list[str]]:
 
   # add background music
   _, bgm_file = BGM.instance().random()
-  if bgm_file != '':
+  if bgm_file == '':
     shutil.copyfile(temp, output)
     return output, bgm_file, names
   else:

@@ -34,11 +34,17 @@ async def main(params):
 
   # image retrieval and speech synthesis
   path = Path(params['imagePath'])
-  frames = sorted([str(f)] for f in [
-    *path.glob('**/*.png'),
-    *path.glob('**/*.jpg'),
-    *path.glob('**/*.jpeg'),
-  ])
+  imagelist = params['images']
+  frames = []
+  for img in imagelist:
+    frames.append([*path.glob(str(img)+'.png'),
+                  *path.glob(str(img)+'.jpg'),
+                  *path.glob(str(img)+'.jpeg')])
+  # frames = sorted([str(f)] for f in [
+  #   *path.glob('**/*.png'),
+  #   *path.glob('**/*.jpg'),
+  #   *path.glob('**/*.jpeg'),
+  # ])
   print('images:', frames)
   pass
   audio = await synthesize_speech(params)
