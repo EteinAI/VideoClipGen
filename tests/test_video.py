@@ -36,7 +36,7 @@ def validation(filename):
 
 
 @pytest.fixture
-def assets():
+def assets(workspace):
   # summaries of this video
   # summaries = [
   #   '这145平米的样板间采用10多种色彩，创造了和谐、高级的空间',
@@ -47,16 +47,20 @@ def assets():
   #   '主卧和次卧都采用了不同的装饰元素，呈现出不同的风格，相应地丰富了整个空间'
   # ]
 
-  # workspace
-  workspace = os.path.dirname(__file__)
   # images
-  frame_path = Path(os.path.join(workspace, 'data', 'images'))
+  frame_path = Path(os.path.join(workspace, 'images'))
   frames = [[f] for f in sorted([*frame_path.glob('**/*.jpg')])]
   # audio
-  audio_path = Path(os.path.join(workspace, 'data', 'audio'))
+  audio_path = Path(os.path.join(workspace, 'audio'))
   audio = sorted([*audio_path.glob('**/*.wav')])
   # assets
   return [{'frames': frames[i], 'audio': audio[i]} for i in range(len(audio))]
+
+
+@pytest.fixture
+def subtitles(workspace):
+  path = Path(os.path.join(workspace, 'audio'))
+  return sorted([*path.glob('**/*.ssa')])
 
 
 def test_generate(assets, tmp_path):
@@ -79,28 +83,42 @@ def test_keyframe(assets, tmp_path):
     assert valid
 
 
-def test_concat(assets, tmp_path):
+def test_concat(assets, subtitles, tmp_path):
   videos = generate(assets=assets, cwd=tmp_path, verbose=True)
   # videos = [os.path.join(tmp_path, f'{i}.mp4')
   #           for i in range(len(assets))]
 
   with pytest.raises(RuntimeError) as e:
-    concat(videos=videos, size=(100, 100), output='concat.mp4', verbose=True)
-    assert 'Failed to concatenate videos' in str(e)
+    concat(
+      videos=videos,
+      size=(100, 100),
+      output=os.path.join(tmp_path, 'concat.mp4'),
+      verbose=True,
+    )
+  assert 'Failed to concatenate videos' in str(e)
 
   with pytest.raises(RuntimeError) as e:
-    concat(videos=[], output='concat.mp4')
-    assert 'Failed to assemble stream' in str(e)
+    concat(videos=[], output=os.path.join(tmp_path, 'concat.mp4'))
+  assert 'Failed to assemble stream' in str(e)
 
-  output = concat(videos=videos, output=os.path.join(tmp_path, 'output.mp4'))
+  with pytest.raises(ValueError) as e:
+    concat(videos=videos, subtitles=['random'],
+           output=os.path.join(tmp_path, 'concat.mp4'))
+  assert 'must be the same' in str(e)
+
+  output = concat(
+    videos=videos,
+    subtitles=subtitles,
+    output=os.path.join(tmp_path, 'output.mp4'),
+    verbose=True,
+  )
   assert os.path.exists(output)
   valid, _ = validation(output)
   assert valid
 
 
-def bgms():
-  workspace = os.path.dirname(__file__)
-  bgm_path = Path(os.path.join(workspace, 'data', 'bgm'))
+def bgms(workspace):
+  bgm_path = Path(os.path.join(workspace, 'bgm'))
   return sorted([*bgm_path.glob('**/*.m4a')])
 
 
@@ -112,7 +130,7 @@ def test_audio_mix(assets, tmp_path):
 
   with pytest.raises(RuntimeError) as e:
     audio_mix(output, 'not_exist.mp3', 'mixed.mp4')
-    assert 'Failed to add background music' in str(e)
+  assert 'Failed to add background music' in str(e)
 
   mixed = os.path.join(tmp_path, 'with_bgm.mp4')
   mixed = audio_mix(output, BGM.instance().random()[1], mixed)
@@ -144,6 +162,7 @@ async def test_concat_video(
   tmp_path, params
 ):
   params['cwd'] = tmp_path
+
   mock_concat.return_value = 'concat.mp4'
   mock_audio_mix.return_value = 'output.mp4'
   mock_keyframe.return_value = (
@@ -151,13 +170,19 @@ async def test_concat_video(
     params['kfa'],
   )
 
-  videos, bgm, kfa = await concat_video(params)
+  final_output, bgm, kfa = await concat_video(params)
 
-  mock_concat.assert_called_once()
-  mock_audio_mix.assert_called_once()
-  mock_keyframe.assert_called_once()
-  assert videos == 'output.mp4'
-  assert os.path.exists(bgm)
   assert kfa == params['kfa']
-  assert mock_audio_mix.call_args.args[0] == 'concat.mp4'
+  assert mock_keyframe.call_count == 1
+  assert mock_keyframe.call_args.kwargs == {
+    'videos': params['videos'],
+    'cwd': os.path.join(params['cwd'], 'video'),
+  }
+
   assert os.path.exists(os.path.join(params['cwd'], 'video'))
+  assert mock_concat.call_count == 1
+
+  assert os.path.exists(bgm)
+  assert final_output == 'output.mp4'
+  assert mock_audio_mix.call_count == 1
+  assert mock_audio_mix.call_args.args == ('concat.mp4', bgm)

@@ -155,7 +155,7 @@ class VideoClipGen:
 
     # tts and image retrieval
     try:
-      frames, audio = await asyncio.gather(
+      frames, (audio, ssa) = await asyncio.gather(
         # retrieve image frames
         workflow.execute_activity(
           'retrieve_image',
@@ -174,7 +174,8 @@ class VideoClipGen:
           retry_policy=retry_policy,
         )
       )
-      params['frames'], params['audio'] = frames, audio
+      params['frames'] = frames
+      params['audio'], params['subtitles'] = audio, ssa
     except FailureError as e:
       # update status
       self._set_progress('assets', 'error', 'AssetsGenError')

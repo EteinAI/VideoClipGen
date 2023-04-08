@@ -89,15 +89,12 @@ async def test_localflow(
     params['bgm'],
     params['kfa'],
   )
-  mock_generate_video.return_value = (
-    params['videos'],
-  )
+  mock_generate_video.return_value = params['videos']
   mock_synthesize_speech.return_value = (
     params['audio'],
+    params['subtitles'],
   )
-  mock_retrieve_image.return_value = (
-    params['frames'],
-  )
+  mock_retrieve_image.return_value = params['frames']
   mock_summary_and_title.return_value = (
     params['summaries'],
     params['instructions'],

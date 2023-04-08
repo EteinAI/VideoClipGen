@@ -48,11 +48,12 @@ async def main(params):
 
   # image retrieval and speech synthesis
   frames = await retrieve_image(params)
-  audio = await synthesize_speech(params)
+  audio, ssa = await synthesize_speech(params)
 
   if len(frames) != len(audio):
     raise RuntimeError('Number of frames and audio clips do not match')
 
+  params['subtitles'] = ssa
   params['assets'] = [{'frames': frames[i], 'audio': audio[i]}
                       for i in range(len(frames))]
 

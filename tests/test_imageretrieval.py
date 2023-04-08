@@ -23,8 +23,8 @@ def summaries():
 
 
 @pytest.fixture
-def image_files():
-  path = Path(os.path.join(os.path.dirname(__file__), 'data', 'images'))
+def image_files(workspace):
+  path = Path(os.path.join(workspace, 'images'))
   return sorted([str(p) for p in path.glob('**/*.jpg')])
 
 

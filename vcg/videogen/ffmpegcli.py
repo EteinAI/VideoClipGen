@@ -166,24 +166,28 @@ def keyframe(videos, cwd, verbose=False):
   return kfa_videos, kfa_names
 
 
-def concat(videos, output, size=default_size, verbose=False):
+def concat(videos, output, subtitles=None, size=None, verbose=False):
   """
   Concatenate videos.
   Scale and pad the videos to the same size, then concatenate them.
   """
 
-  width, height = size
+  width, height = size or default_size
+
+  if subtitles is not None and len(videos) != len(subtitles):
+    raise ValueError('The number of videos and subtitles must be the same')
+
   filter_graphs = []
-  for file in videos:
+  for i, file in enumerate(videos):
     input = ffmpeg.input(file)
-    filter_graphs.append(input.video.filter(
+    video = input.video.filter(
       'scale',
-      width=f'{width}',
-      height='-2',
+      w=f'{width}',
+      h='-2',
     ).filter(
       'pad',
-      width=f'{width}',
-      height=f'{height}',
+      w=f'{width}',
+      h=f'{height}',
       x='(ow-iw)/2',
       y='(oh-ih)/2',
       color='black',
@@ -191,7 +195,13 @@ def concat(videos, output, size=default_size, verbose=False):
       'setsar',
       r='1',
       max='1'
-    ))
+    )
+    if subtitles is not None:
+      video = video.filter(
+        'subtitles',
+        f=subtitles[i],
+      )
+    filter_graphs.append(video)
     filter_graphs.append(input.audio)
 
   try:
