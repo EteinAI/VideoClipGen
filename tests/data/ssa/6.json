@@ -1,0 +1,422 @@
+{
+  "header": {
+    "namespace": "SpeechSynthesizer",
+    "name": "MetaInfo",
+    "status": 20000000,
+    "message_id": "fca337754dc84b1b8396f1181054e774",
+    "task_id": "6d978ddc3cee45fab582c1af63ac5ffa",
+    "status_text": "Gateway:SUCCESS:Success."
+  },
+  "payload": {
+    "subtitles": [
+      {
+        "text": "恒",
+        "phoneme": "null",
+        "begin_index": 0,
+        "end_index": 1,
+        "begin_time": 0,
+        "end_time": 269
+      },
+      {
+        "text": "洁",
+        "phoneme": "null",
+        "begin_index": 1,
+        "end_index": 2,
+        "begin_time": 269,
+        "end_time": 390
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 2,
+        "end_index": 3,
+        "begin_time": 390,
+        "end_time": 524
+      },
+      {
+        "text": "花",
+        "phoneme": "null",
+        "begin_index": 4,
+        "end_index": 5,
+        "begin_time": 525,
+        "end_time": 750
+      },
+      {
+        "text": "洒",
+        "phoneme": "null",
+        "begin_index": 5,
+        "end_index": 6,
+        "begin_time": 750,
+        "end_time": 945
+      },
+      {
+        "text": "和",
+        "phoneme": "null",
+        "begin_index": 7,
+        "end_index": 8,
+        "begin_time": 945,
+        "end_time": 1170
+      },
+      {
+        "text": "智",
+        "phoneme": "null",
+        "begin_index": 9,
+        "end_index": 10,
+        "begin_time": 1170,
+        "end_time": 1320
+      },
+      {
+        "text": "能",
+        "phoneme": "null",
+        "begin_index": 10,
+        "end_index": 11,
+        "begin_time": 1320,
+        "end_time": 1454
+      },
+      {
+        "text": "一",
+        "phoneme": "null",
+        "begin_index": 12,
+        "end_index": 13,
+        "begin_time": 1455,
+        "end_time": 1679
+      },
+      {
+        "text": "体",
+        "phoneme": "null",
+        "begin_index": 13,
+        "end_index": 14,
+        "begin_time": 1679,
+        "end_time": 1830
+      },
+      {
+        "text": "机",
+        "phoneme": "null",
+        "begin_index": 14,
+        "end_index": 15,
+        "begin_time": 1830,
+        "end_time": 2010
+      },
+      {
+        "text": "都",
+        "phoneme": "null",
+        "begin_index": 16,
+        "end_index": 17,
+        "begin_time": 2010,
+        "end_time": 2190
+      },
+      {
+        "text": "搭",
+        "phoneme": "null",
+        "begin_index": 18,
+        "end_index": 19,
+        "begin_time": 2190,
+        "end_time": 2340
+      },
+      {
+        "text": "载",
+        "phoneme": "null",
+        "begin_index": 19,
+        "end_index": 20,
+        "begin_time": 2340,
+        "end_time": 2460
+      },
+      {
+        "text": "了",
+        "phoneme": "null",
+        "begin_index": 20,
+        "end_index": 21,
+        "begin_time": 2460,
+        "end_time": 2609
+      },
+      {
+        "text": "包",
+        "phoneme": "null",
+        "begin_index": 22,
+        "end_index": 23,
+        "begin_time": 2610,
+        "end_time": 2849
+      },
+      {
+        "text": "括",
+        "phoneme": "null",
+        "begin_index": 23,
+        "end_index": 24,
+        "begin_time": 2849,
+        "end_time": 3045
+      },
+      {
+        "text": "精",
+        "phoneme": "null",
+        "begin_index": 25,
+        "end_index": 26,
+        "begin_time": 3045,
+        "end_time": 3240
+      },
+      {
+        "text": "准",
+        "phoneme": "null",
+        "begin_index": 26,
+        "end_index": 27,
+        "begin_time": 3240,
+        "end_time": 3419
+      },
+      {
+        "text": "控",
+        "phoneme": "null",
+        "begin_index": 28,
+        "end_index": 29,
+        "begin_time": 3420,
+        "end_time": 3629
+      },
+      {
+        "text": "温",
+        "phoneme": "null",
+        "begin_index": 29,
+        "end_index": 30,
+        "begin_time": 3629,
+        "end_time": 4080
+      },
+      {
+        "text": "长",
+        "phoneme": "null",
+        "begin_index": 31,
+        "end_index": 32,
+        "begin_time": 4170,
+        "end_time": 4320
+      },
+      {
+        "text": "效",
+        "phoneme": "null",
+        "begin_index": 32,
+        "end_index": 33,
+        "begin_time": 4320,
+        "end_time": 4544
+      },
+      {
+        "text": "阻",
+        "phoneme": "null",
+        "begin_index": 34,
+        "end_index": 35,
+        "begin_time": 4545,
+        "end_time": 4680
+      },
+      {
+        "text": "垢",
+        "phoneme": "null",
+        "begin_index": 35,
+        "end_index": 36,
+        "begin_time": 4680,
+        "end_time": 5010
+      },
+      {
+        "text": "水",
+        "phoneme": "null",
+        "begin_index": 37,
+        "end_index": 38,
+        "begin_time": 5100,
+        "end_time": 5280
+      },
+      {
+        "text": "净",
+        "phoneme": "null",
+        "begin_index": 38,
+        "end_index": 39,
+        "begin_time": 5280,
+        "end_time": 5430
+      },
+      {
+        "text": "镀",
+        "phoneme": "null",
+        "begin_index": 39,
+        "end_index": 40,
+        "begin_time": 5647,
+        "end_time": 5947
+      },
+      {
+        "text": "层",
+        "phoneme": "null",
+        "begin_index": 40,
+        "end_index": 41,
+        "begin_time": 5947,
+        "end_time": 6127
+      },
+      {
+        "text": "等",
+        "phoneme": "null",
+        "begin_index": 41,
+        "end_index": 42,
+        "begin_time": 6127,
+        "end_time": 6292
+      },
+      {
+        "text": "在",
+        "phoneme": "null",
+        "begin_index": 43,
+        "end_index": 44,
+        "begin_time": 6292,
+        "end_time": 6457
+      },
+      {
+        "text": "内",
+        "phoneme": "null",
+        "begin_index": 44,
+        "end_index": 45,
+        "begin_time": 6457,
+        "end_time": 6547
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 45,
+        "end_index": 46,
+        "begin_time": 6547,
+        "end_time": 6727
+      },
+      {
+        "text": "恒",
+        "phoneme": "null",
+        "begin_index": 47,
+        "end_index": 48,
+        "begin_time": 6727,
+        "end_time": 6967
+      },
+      {
+        "text": "洁",
+        "phoneme": "null",
+        "begin_index": 48,
+        "end_index": 49,
+        "begin_time": 6967,
+        "end_time": 7192
+      },
+      {
+        "text": "技",
+        "phoneme": "null",
+        "begin_index": 50,
+        "end_index": 51,
+        "begin_time": 7192,
+        "end_time": 7357
+      },
+      {
+        "text": "术",
+        "phoneme": "null",
+        "begin_index": 51,
+        "end_index": 52,
+        "begin_time": 7357,
+        "end_time": 7477
+      },
+      {
+        "text": "包",
+        "phoneme": "null",
+        "begin_index": 52,
+        "end_index": 53,
+        "begin_time": 7477,
+        "end_time": 7927
+      },
+      {
+        "text": "让",
+        "phoneme": "null",
+        "begin_index": 54,
+        "end_index": 55,
+        "begin_time": 7987,
+        "end_time": 8137
+      },
+      {
+        "text": "您",
+        "phoneme": "null",
+        "begin_index": 55,
+        "end_index": 56,
+        "begin_time": 8137,
+        "end_time": 8272
+      },
+      {
+        "text": "享",
+        "phoneme": "null",
+        "begin_index": 57,
+        "end_index": 58,
+        "begin_time": 8272,
+        "end_time": 8497
+      },
+      {
+        "text": "受",
+        "phoneme": "null",
+        "begin_index": 58,
+        "end_index": 59,
+        "begin_time": 8497,
+        "end_time": 8767
+      },
+      {
+        "text": "更",
+        "phoneme": "null",
+        "begin_index": 60,
+        "end_index": 61,
+        "begin_time": 8767,
+        "end_time": 8917
+      },
+      {
+        "text": "加",
+        "phoneme": "null",
+        "begin_index": 61,
+        "end_index": 62,
+        "begin_time": 8917,
+        "end_time": 9172
+      },
+      {
+        "text": "智",
+        "phoneme": "null",
+        "begin_index": 63,
+        "end_index": 64,
+        "begin_time": 9172,
+        "end_time": 9307
+      },
+      {
+        "text": "能",
+        "phoneme": "null",
+        "begin_index": 64,
+        "end_index": 65,
+        "begin_time": 9307,
+        "end_time": 9427
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 65,
+        "end_index": 66,
+        "begin_time": 9427,
+        "end_time": 9547
+      },
+      {
+        "text": "卫",
+        "phoneme": "null",
+        "begin_index": 67,
+        "end_index": 68,
+        "begin_time": 9547,
+        "end_time": 9667
+      },
+      {
+        "text": "浴",
+        "phoneme": "null",
+        "begin_index": 68,
+        "end_index": 69,
+        "begin_time": 9667,
+        "end_time": 9847
+      },
+      {
+        "text": "体",
+        "phoneme": "null",
+        "begin_index": 70,
+        "end_index": 71,
+        "begin_time": 9847,
+        "end_time": 10027
+      },
+      {
+        "text": "验",
+        "phoneme": "null",
+        "begin_index": 71,
+        "end_index": 72,
+        "begin_time": 10027,
+        "end_time": 10147
+      }
+    ]
+  }
+}
