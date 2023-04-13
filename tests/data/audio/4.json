@@ -1,0 +1,190 @@
+{
+  "header": {
+    "namespace": "SpeechSynthesizer",
+    "name": "MetaInfo",
+    "status": 20000000,
+    "message_id": "5881873150ac4b3cab1b1a3ffe7610ed",
+    "task_id": "8026245a29e0405c89b02464cd5b07bc",
+    "status_text": "Gateway:SUCCESS:Success."
+  },
+  "payload": {
+    "subtitles": [
+      {
+        "text": "选",
+        "phoneme": "null",
+        "begin_index": 0,
+        "end_index": 1,
+        "begin_time": 0,
+        "end_time": 299
+      },
+      {
+        "text": "择",
+        "phoneme": "null",
+        "begin_index": 1,
+        "end_index": 2,
+        "begin_time": 299,
+        "end_time": 464
+      },
+      {
+        "text": "雅",
+        "phoneme": "null",
+        "begin_index": 3,
+        "end_index": 4,
+        "begin_time": 465,
+        "end_time": 780
+      },
+      {
+        "text": "琪",
+        "phoneme": "null",
+        "begin_index": 4,
+        "end_index": 5,
+        "begin_time": 780,
+        "end_time": 989
+      },
+      {
+        "text": "诺",
+        "phoneme": "null",
+        "begin_index": 6,
+        "end_index": 7,
+        "begin_time": 990,
+        "end_time": 1169
+      },
+      {
+        "text": "悦",
+        "phoneme": "null",
+        "begin_index": 7,
+        "end_index": 8,
+        "begin_time": 1169,
+        "end_time": 1289
+      },
+      {
+        "text": "动",
+        "phoneme": "null",
+        "begin_index": 8,
+        "end_index": 9,
+        "begin_time": 1289,
+        "end_time": 1545
+      },
+      {
+        "text": "风",
+        "phoneme": "null",
+        "begin_index": 10,
+        "end_index": 11,
+        "begin_time": 1545,
+        "end_time": 1770
+      },
+      {
+        "text": "华",
+        "phoneme": "null",
+        "begin_index": 11,
+        "end_index": 12,
+        "begin_time": 1770,
+        "end_time": 2009
+      },
+      {
+        "text": "系",
+        "phoneme": "null",
+        "begin_index": 13,
+        "end_index": 14,
+        "begin_time": 2010,
+        "end_time": 2190
+      },
+      {
+        "text": "列",
+        "phoneme": "null",
+        "begin_index": 14,
+        "end_index": 15,
+        "begin_time": 2190,
+        "end_time": 2280
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 15,
+        "end_index": 16,
+        "begin_time": 2280,
+        "end_time": 2414
+      },
+      {
+        "text": "窗",
+        "phoneme": "null",
+        "begin_index": 17,
+        "end_index": 18,
+        "begin_time": 2415,
+        "end_time": 2609
+      },
+      {
+        "text": "帘",
+        "phoneme": "null",
+        "begin_index": 18,
+        "end_index": 19,
+        "begin_time": 2609,
+        "end_time": 3030
+      },
+      {
+        "text": "营",
+        "phoneme": "null",
+        "begin_index": 20,
+        "end_index": 21,
+        "begin_time": 3090,
+        "end_time": 3240
+      },
+      {
+        "text": "造",
+        "phoneme": "null",
+        "begin_index": 21,
+        "end_index": 22,
+        "begin_time": 3240,
+        "end_time": 3450
+      },
+      {
+        "text": "出",
+        "phoneme": "null",
+        "begin_index": 22,
+        "end_index": 23,
+        "begin_time": 3450,
+        "end_time": 3629
+      },
+      {
+        "text": "温",
+        "phoneme": "null",
+        "begin_index": 24,
+        "end_index": 25,
+        "begin_time": 3629,
+        "end_time": 3810
+      },
+      {
+        "text": "馨",
+        "phoneme": "null",
+        "begin_index": 25,
+        "end_index": 26,
+        "begin_time": 3810,
+        "end_time": 3929
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 26,
+        "end_index": 27,
+        "begin_time": 3929,
+        "end_time": 4064
+      },
+      {
+        "text": "氛",
+        "phoneme": "null",
+        "begin_index": 28,
+        "end_index": 29,
+        "begin_time": 4065,
+        "end_time": 4229
+      },
+      {
+        "text": "围",
+        "phoneme": "null",
+        "begin_index": 29,
+        "end_index": 30,
+        "begin_time": 4229,
+        "end_time": 4440
+      }
+    ]
+  }
+}

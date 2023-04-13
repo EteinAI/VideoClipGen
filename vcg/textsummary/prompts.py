@@ -87,7 +87,12 @@ class ScenePrompter(Prompter):
     instructions = ['场景' + s.strip()
                     for s in response.split('场景') if len(s.strip()) > 0]
     summaries = [re.split(r':|：', s)[-1].strip() for s in instructions]
-    return summaries, instructions
+
+    # HACK! filter out short summaries
+    pairs = [(s, i) for s, i in zip(summaries, instructions) if len(s) > 10]
+    summaries, instructions = zip(*pairs)
+
+    return list(summaries), list(instructions)
 
   def instructions(self, resp: str) -> list[str]:
     return ['场景' + s.strip() for s in resp.split('场景') if len(s.strip()) > 0]

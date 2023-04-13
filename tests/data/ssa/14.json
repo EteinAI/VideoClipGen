@@ -1,0 +1,510 @@
+{
+  "header": {
+    "namespace": "SpeechSynthesizer",
+    "name": "MetaInfo",
+    "status": 20000000,
+    "message_id": "7a47c7e0b5034086847e102e3be11475",
+    "task_id": "43133871b7a54edd81265c4891ef7bf8",
+    "status_text": "Gateway:SUCCESS:Success."
+  },
+  "payload": {
+    "subtitles": [
+      {
+        "text": "恒",
+        "phoneme": "null",
+        "begin_index": 0,
+        "end_index": 1,
+        "begin_time": 0,
+        "end_time": 299
+      },
+      {
+        "text": "洁",
+        "phoneme": "null",
+        "begin_index": 1,
+        "end_index": 2,
+        "begin_time": 299,
+        "end_time": 479
+      },
+      {
+        "text": "拥",
+        "phoneme": "null",
+        "begin_index": 3,
+        "end_index": 4,
+        "begin_time": 480,
+        "end_time": 629
+      },
+      {
+        "text": "有",
+        "phoneme": "null",
+        "begin_index": 4,
+        "end_index": 5,
+        "begin_time": 629,
+        "end_time": 840
+      },
+      {
+        "text": "完",
+        "phoneme": "null",
+        "begin_index": 6,
+        "end_index": 7,
+        "begin_time": 840,
+        "end_time": 1049
+      },
+      {
+        "text": "善",
+        "phoneme": "null",
+        "begin_index": 7,
+        "end_index": 8,
+        "begin_time": 1049,
+        "end_time": 1200
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 8,
+        "end_index": 9,
+        "begin_time": 1200,
+        "end_time": 1364
+      },
+      {
+        "text": "综",
+        "phoneme": "null",
+        "begin_index": 10,
+        "end_index": 11,
+        "begin_time": 1365,
+        "end_time": 1559
+      },
+      {
+        "text": "合",
+        "phoneme": "null",
+        "begin_index": 11,
+        "end_index": 12,
+        "begin_time": 1559,
+        "end_time": 1800
+      },
+      {
+        "text": "服",
+        "phoneme": "null",
+        "begin_index": 13,
+        "end_index": 14,
+        "begin_time": 1800,
+        "end_time": 1980
+      },
+      {
+        "text": "务",
+        "phoneme": "null",
+        "begin_index": 14,
+        "end_index": 15,
+        "begin_time": 1980,
+        "end_time": 2159
+      },
+      {
+        "text": "体",
+        "phoneme": "null",
+        "begin_index": 16,
+        "end_index": 17,
+        "begin_time": 2160,
+        "end_time": 2430
+      },
+      {
+        "text": "系",
+        "phoneme": "null",
+        "begin_index": 17,
+        "end_index": 18,
+        "begin_time": 2430,
+        "end_time": 2670
+      },
+      {
+        "text": "和",
+        "phoneme": "null",
+        "begin_index": 19,
+        "end_index": 20,
+        "begin_time": 2879,
+        "end_time": 3105
+      },
+      {
+        "text": "强",
+        "phoneme": "null",
+        "begin_index": 21,
+        "end_index": 22,
+        "begin_time": 3105,
+        "end_time": 3330
+      },
+      {
+        "text": "大",
+        "phoneme": "null",
+        "begin_index": 22,
+        "end_index": 23,
+        "begin_time": 3330,
+        "end_time": 3480
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 23,
+        "end_index": 24,
+        "begin_time": 3480,
+        "end_time": 3614
+      },
+      {
+        "text": "服",
+        "phoneme": "null",
+        "begin_index": 25,
+        "end_index": 26,
+        "begin_time": 3615,
+        "end_time": 3780
+      },
+      {
+        "text": "务",
+        "phoneme": "null",
+        "begin_index": 26,
+        "end_index": 27,
+        "begin_time": 3780,
+        "end_time": 3929
+      },
+      {
+        "text": "保",
+        "phoneme": "null",
+        "begin_index": 28,
+        "end_index": 29,
+        "begin_time": 3930,
+        "end_time": 4080
+      },
+      {
+        "text": "障",
+        "phoneme": "null",
+        "begin_index": 29,
+        "end_index": 30,
+        "begin_time": 4080,
+        "end_time": 4259
+      },
+      {
+        "text": "能",
+        "phoneme": "null",
+        "begin_index": 31,
+        "end_index": 32,
+        "begin_time": 4259,
+        "end_time": 4410
+      },
+      {
+        "text": "力",
+        "phoneme": "null",
+        "begin_index": 32,
+        "end_index": 33,
+        "begin_time": 4410,
+        "end_time": 4890
+      },
+      {
+        "text": "三",
+        "phoneme": "null",
+        "begin_index": 34,
+        "end_index": 35,
+        "begin_time": 4950,
+        "end_time": 5130
+      },
+      {
+        "text": "千",
+        "phoneme": "null",
+        "begin_index": 35,
+        "end_index": 36,
+        "begin_time": 5130,
+        "end_time": 5339
+      },
+      {
+        "text": "多",
+        "phoneme": "null",
+        "begin_index": 37,
+        "end_index": 38,
+        "begin_time": 5340,
+        "end_time": 5490
+      },
+      {
+        "text": "个",
+        "phoneme": "null",
+        "begin_index": 38,
+        "end_index": 39,
+        "begin_time": 5490,
+        "end_time": 5640
+      },
+      {
+        "text": "网",
+        "phoneme": "null",
+        "begin_index": 40,
+        "end_index": 41,
+        "begin_time": 5640,
+        "end_time": 5820
+      },
+      {
+        "text": "点",
+        "phoneme": "null",
+        "begin_index": 41,
+        "end_index": 42,
+        "begin_time": 5820,
+        "end_time": 6075
+      },
+      {
+        "text": "遍",
+        "phoneme": "null",
+        "begin_index": 43,
+        "end_index": 44,
+        "begin_time": 6075,
+        "end_time": 6240
+      },
+      {
+        "text": "布",
+        "phoneme": "null",
+        "begin_index": 44,
+        "end_index": 45,
+        "begin_time": 6240,
+        "end_time": 6389
+      },
+      {
+        "text": "全",
+        "phoneme": "null",
+        "begin_index": 46,
+        "end_index": 47,
+        "begin_time": 6390,
+        "end_time": 6630
+      },
+      {
+        "text": "国",
+        "phoneme": "null",
+        "begin_index": 47,
+        "end_index": 48,
+        "begin_time": 6630,
+        "end_time": 6809
+      },
+      {
+        "text": "四",
+        "phoneme": "null",
+        "begin_index": 49,
+        "end_index": 50,
+        "begin_time": 6809,
+        "end_time": 6960
+      },
+      {
+        "text": "百",
+        "phoneme": "null",
+        "begin_index": 50,
+        "end_index": 51,
+        "begin_time": 6960,
+        "end_time": 7155
+      },
+      {
+        "text": "多",
+        "phoneme": "null",
+        "begin_index": 52,
+        "end_index": 53,
+        "begin_time": 7155,
+        "end_time": 7289
+      },
+      {
+        "text": "个",
+        "phoneme": "null",
+        "begin_index": 53,
+        "end_index": 54,
+        "begin_time": 7289,
+        "end_time": 7425
+      },
+      {
+        "text": "城",
+        "phoneme": "null",
+        "begin_index": 55,
+        "end_index": 56,
+        "begin_time": 7425,
+        "end_time": 7710
+      },
+      {
+        "text": "市",
+        "phoneme": "null",
+        "begin_index": 56,
+        "end_index": 57,
+        "begin_time": 7710,
+        "end_time": 7860
+      },
+      {
+        "text": "让",
+        "phoneme": "null",
+        "begin_index": 57,
+        "end_index": 58,
+        "begin_time": 8074,
+        "end_time": 8389
+      },
+      {
+        "text": "全",
+        "phoneme": "null",
+        "begin_index": 59,
+        "end_index": 60,
+        "begin_time": 8389,
+        "end_time": 8584
+      },
+      {
+        "text": "卫",
+        "phoneme": "null",
+        "begin_index": 60,
+        "end_index": 61,
+        "begin_time": 8584,
+        "end_time": 8839
+      },
+      {
+        "text": "焕",
+        "phoneme": "null",
+        "begin_index": 62,
+        "end_index": 63,
+        "begin_time": 8839,
+        "end_time": 9064
+      },
+      {
+        "text": "新",
+        "phoneme": "null",
+        "begin_index": 63,
+        "end_index": 64,
+        "begin_time": 9064,
+        "end_time": 9319
+      },
+      {
+        "text": "仅",
+        "phoneme": "null",
+        "begin_index": 65,
+        "end_index": 66,
+        "begin_time": 9319,
+        "end_time": 9544
+      },
+      {
+        "text": "需",
+        "phoneme": "null",
+        "begin_index": 66,
+        "end_index": 67,
+        "begin_time": 9544,
+        "end_time": 9694
+      },
+      {
+        "text": "三",
+        "phoneme": "null",
+        "begin_index": 68,
+        "end_index": 69,
+        "begin_time": 9694,
+        "end_time": 9904
+      },
+      {
+        "text": "小",
+        "phoneme": "null",
+        "begin_index": 69,
+        "end_index": 70,
+        "begin_time": 9904,
+        "end_time": 10144
+      },
+      {
+        "text": "时",
+        "phoneme": "null",
+        "begin_index": 70,
+        "end_index": 71,
+        "begin_time": 10144,
+        "end_time": 10564
+      },
+      {
+        "text": "让",
+        "phoneme": "null",
+        "begin_index": 72,
+        "end_index": 73,
+        "begin_time": 10624,
+        "end_time": 10774
+      },
+      {
+        "text": "您",
+        "phoneme": "null",
+        "begin_index": 73,
+        "end_index": 74,
+        "begin_time": 10774,
+        "end_time": 10969
+      },
+      {
+        "text": "享",
+        "phoneme": "null",
+        "begin_index": 75,
+        "end_index": 76,
+        "begin_time": 10969,
+        "end_time": 11194
+      },
+      {
+        "text": "受",
+        "phoneme": "null",
+        "begin_index": 76,
+        "end_index": 77,
+        "begin_time": 11194,
+        "end_time": 11419
+      },
+      {
+        "text": "快",
+        "phoneme": "null",
+        "begin_index": 78,
+        "end_index": 79,
+        "begin_time": 11419,
+        "end_time": 11644
+      },
+      {
+        "text": "速",
+        "phoneme": "null",
+        "begin_index": 79,
+        "end_index": 80,
+        "begin_time": 11644,
+        "end_time": 11869
+      },
+      {
+        "text": "暖",
+        "phoneme": "null",
+        "begin_index": 81,
+        "end_index": 82,
+        "begin_time": 11869,
+        "end_time": 12124
+      },
+      {
+        "text": "心",
+        "phoneme": "null",
+        "begin_index": 82,
+        "end_index": 83,
+        "begin_time": 12124,
+        "end_time": 12244
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 83,
+        "end_index": 84,
+        "begin_time": 12244,
+        "end_time": 12379
+      },
+      {
+        "text": "服",
+        "phoneme": "null",
+        "begin_index": 85,
+        "end_index": 86,
+        "begin_time": 12379,
+        "end_time": 12514
+      },
+      {
+        "text": "务",
+        "phoneme": "null",
+        "begin_index": 86,
+        "end_index": 87,
+        "begin_time": 12514,
+        "end_time": 12679
+      },
+      {
+        "text": "体",
+        "phoneme": "null",
+        "begin_index": 88,
+        "end_index": 89,
+        "begin_time": 12679,
+        "end_time": 12844
+      },
+      {
+        "text": "验",
+        "phoneme": "null",
+        "begin_index": 89,
+        "end_index": 90,
+        "begin_time": 12844,
+        "end_time": 12964
+      }
+    ]
+  }
+}

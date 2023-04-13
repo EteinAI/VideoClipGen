@@ -6,7 +6,9 @@ lxml==4.9.2
 matplotlib==3.7.1
 multilingual_clip==1.0.10
 openai==0.27.2
+pillow==9.5.0
 polars==0.16.15
+pysubs2==1.6.1
 pytest==7.2.2
 pytest-asyncio==0.21.0
 pytest-cov==4.0.0
@@ -14,3 +16,4 @@ scikit-learn==1.2.2
 sseclient-py==1.7.2
 temporalio==1.1.0
 git+https://github.com/openai/CLIP.git@a9b1bf59 # main branch
+git+https://github.com/aliyun/alibabacloud-nls-python-sdk@v1.0.0

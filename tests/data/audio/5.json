@@ -1,0 +1,286 @@
+{
+  "header": {
+    "namespace": "SpeechSynthesizer",
+    "name": "MetaInfo",
+    "status": 20000000,
+    "message_id": "af718d660b23480c95ea28caf8a4e4f9",
+    "task_id": "9891880659b64ae08925c9f905fef3b6",
+    "status_text": "Gateway:SUCCESS:Success."
+  },
+  "payload": {
+    "subtitles": [
+      {
+        "text": "主",
+        "phoneme": "null",
+        "begin_index": 0,
+        "end_index": 1,
+        "begin_time": 0,
+        "end_time": 269
+      },
+      {
+        "text": "卧",
+        "phoneme": "null",
+        "begin_index": 1,
+        "end_index": 2,
+        "begin_time": 269,
+        "end_time": 450
+      },
+      {
+        "text": "和",
+        "phoneme": "null",
+        "begin_index": 3,
+        "end_index": 4,
+        "begin_time": 450,
+        "end_time": 644
+      },
+      {
+        "text": "次",
+        "phoneme": "null",
+        "begin_index": 5,
+        "end_index": 6,
+        "begin_time": 645,
+        "end_time": 840
+      },
+      {
+        "text": "卧",
+        "phoneme": "null",
+        "begin_index": 6,
+        "end_index": 7,
+        "begin_time": 840,
+        "end_time": 989
+      },
+      {
+        "text": "都",
+        "phoneme": "null",
+        "begin_index": 8,
+        "end_index": 9,
+        "begin_time": 990,
+        "end_time": 1200
+      },
+      {
+        "text": "采",
+        "phoneme": "null",
+        "begin_index": 10,
+        "end_index": 11,
+        "begin_time": 1200,
+        "end_time": 1380
+      },
+      {
+        "text": "用",
+        "phoneme": "null",
+        "begin_index": 11,
+        "end_index": 12,
+        "begin_time": 1380,
+        "end_time": 1470
+      },
+      {
+        "text": "了",
+        "phoneme": "null",
+        "begin_index": 12,
+        "end_index": 13,
+        "begin_time": 1470,
+        "end_time": 1620
+      },
+      {
+        "text": "不",
+        "phoneme": "null",
+        "begin_index": 14,
+        "end_index": 15,
+        "begin_time": 1620,
+        "end_time": 1770
+      },
+      {
+        "text": "同",
+        "phoneme": "null",
+        "begin_index": 15,
+        "end_index": 16,
+        "begin_time": 1770,
+        "end_time": 1919
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 16,
+        "end_index": 17,
+        "begin_time": 1919,
+        "end_time": 2040
+      },
+      {
+        "text": "装",
+        "phoneme": "null",
+        "begin_index": 18,
+        "end_index": 19,
+        "begin_time": 2040,
+        "end_time": 2250
+      },
+      {
+        "text": "饰",
+        "phoneme": "null",
+        "begin_index": 19,
+        "end_index": 20,
+        "begin_time": 2250,
+        "end_time": 2385
+      },
+      {
+        "text": "元",
+        "phoneme": "null",
+        "begin_index": 21,
+        "end_index": 22,
+        "begin_time": 2385,
+        "end_time": 2639
+      },
+      {
+        "text": "素",
+        "phoneme": "null",
+        "begin_index": 22,
+        "end_index": 23,
+        "begin_time": 2639,
+        "end_time": 3060
+      },
+      {
+        "text": "呈",
+        "phoneme": "null",
+        "begin_index": 24,
+        "end_index": 25,
+        "begin_time": 3180,
+        "end_time": 3359
+      },
+      {
+        "text": "现",
+        "phoneme": "null",
+        "begin_index": 25,
+        "end_index": 26,
+        "begin_time": 3359,
+        "end_time": 3570
+      },
+      {
+        "text": "出",
+        "phoneme": "null",
+        "begin_index": 26,
+        "end_index": 27,
+        "begin_time": 3570,
+        "end_time": 3765
+      },
+      {
+        "text": "不",
+        "phoneme": "null",
+        "begin_index": 28,
+        "end_index": 29,
+        "begin_time": 3765,
+        "end_time": 3929
+      },
+      {
+        "text": "同",
+        "phoneme": "null",
+        "begin_index": 29,
+        "end_index": 30,
+        "begin_time": 3929,
+        "end_time": 4050
+      },
+      {
+        "text": "的",
+        "phoneme": "null",
+        "begin_index": 30,
+        "end_index": 31,
+        "begin_time": 4050,
+        "end_time": 4170
+      },
+      {
+        "text": "风",
+        "phoneme": "null",
+        "begin_index": 32,
+        "end_index": 33,
+        "begin_time": 4170,
+        "end_time": 4380
+      },
+      {
+        "text": "格",
+        "phoneme": "null",
+        "begin_index": 33,
+        "end_index": 34,
+        "begin_time": 4380,
+        "end_time": 4860
+      },
+      {
+        "text": "相",
+        "phoneme": "null",
+        "begin_index": 35,
+        "end_index": 36,
+        "begin_time": 4950,
+        "end_time": 5100
+      },
+      {
+        "text": "应",
+        "phoneme": "null",
+        "begin_index": 36,
+        "end_index": 37,
+        "begin_time": 5100,
+        "end_time": 5249
+      },
+      {
+        "text": "地",
+        "phoneme": "null",
+        "begin_index": 37,
+        "end_index": 38,
+        "begin_time": 5249,
+        "end_time": 5459
+      },
+      {
+        "text": "丰",
+        "phoneme": "null",
+        "begin_index": 39,
+        "end_index": 40,
+        "begin_time": 5460,
+        "end_time": 5729
+      },
+      {
+        "text": "富",
+        "phoneme": "null",
+        "begin_index": 40,
+        "end_index": 41,
+        "begin_time": 5729,
+        "end_time": 5820
+      },
+      {
+        "text": "了",
+        "phoneme": "null",
+        "begin_index": 41,
+        "end_index": 42,
+        "begin_time": 5820,
+        "end_time": 5969
+      },
+      {
+        "text": "整",
+        "phoneme": "null",
+        "begin_index": 43,
+        "end_index": 44,
+        "begin_time": 5970,
+        "end_time": 6120
+      },
+      {
+        "text": "个",
+        "phoneme": "null",
+        "begin_index": 44,
+        "end_index": 45,
+        "begin_time": 6120,
+        "end_time": 6284
+      },
+      {
+        "text": "空",
+        "phoneme": "null",
+        "begin_index": 46,
+        "end_index": 47,
+        "begin_time": 6285,
+        "end_time": 6510
+      },
+      {
+        "text": "间",
+        "phoneme": "null",
+        "begin_index": 47,
+        "end_index": 48,
+        "begin_time": 6510,
+        "end_time": 6690
+      }
+    ]
+  }
+}

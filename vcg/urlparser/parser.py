@@ -120,15 +120,3 @@ def parse(url: str, path: str) -> tuple[list[str], list[str], dict[str, str]]:
     fp.close()
 
   return sentences, split_frames(images, os.path.join(path, 'images')), metadata
-
-
-if __name__ == '__main__':
-  parser = argparse.ArgumentParser()
-  parser.add_argument('--url', required=True, type=str)
-  parser.add_argument('--local-path', required=True, type=str)
-
-  args = parser.parse_args()
-  url = args.url
-  path = args.local_path
-
-  parse(url, path)

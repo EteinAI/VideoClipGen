@@ -13,8 +13,14 @@ def BGM_env():
   os.environ['VCG_BGM_ROOT'] = path
 
 
+# BGM instance
+@pytest.fixture(scope='session')
+def workspace():
+  return os.path.join(os.path.dirname(__file__), 'data')
+
+
 # input for local workflow testing
 @pytest.fixture(scope='function')
-def params():
-  path = os.path.join(os.path.dirname(__file__), 'data', 'localflow001.json')
-  return json.load(open(path))
+def params(workspace):
+  path = os.path.join(workspace, 'localflow001.json')
+  return json.load(open(path, 'r'))

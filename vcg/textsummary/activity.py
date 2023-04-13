@@ -53,6 +53,7 @@ async def summary_and_title(params) -> tuple[list[str], list[str], str]:
     title_prompter=title_prompter,
   )
 
+  # TODO add an option to handle title
   # Insert title to the beginning of summaries and instructions
   summaries.insert(0, title)
   instructions.insert(0, title)

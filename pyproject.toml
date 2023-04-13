@@ -1,4 +1,5 @@
 [tool.coverage.run]
 omit = [
-  "vcg/temporalflow.py"
+  "vcg/temporalflow.py",
+  "vcg/pairflow.py"
 ]

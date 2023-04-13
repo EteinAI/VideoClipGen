@@ -55,14 +55,16 @@ def test_parse_args(
   args.voice_ali = 'someone'
   args.cwd = '/nowhere'
   args.prompter = 'nobody'
+
   params = parse_args()
+
   assert params['url'] == 'google.com'
   assert params['voice_ali'] == 'someone'
   assert params['cwd'] == '/nowhere'
   assert params['prompter'] == 'nobody'
   assert mock_args.call_count == 2
   assert mock_load.call_count == 1
-  assert mock_file.call_count > 1
+  mock_file.assert_any_call('dummy.json', 'rb')
 
 
 @pytest.mark.asyncio
@@ -87,15 +89,12 @@ async def test_localflow(
     params['bgm'],
     params['kfa'],
   )
-  mock_generate_video.return_value = (
-    params['videos'],
-  )
+  mock_generate_video.return_value = params['videos']
   mock_synthesize_speech.return_value = (
     params['audio'],
+    params['subtitles'],
   )
-  mock_retrieve_image.return_value = (
-    params['frames'],
-  )
+  mock_retrieve_image.return_value = params['frames']
   mock_summary_and_title.return_value = (
     params['summaries'],
     params['instructions'],
