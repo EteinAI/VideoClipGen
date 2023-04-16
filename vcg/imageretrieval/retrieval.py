@@ -1,8 +1,8 @@
-import faiss
-import numpy as np
-import torch
+import random
 
 import clip
+import numpy as np
+import torch
 from PIL import Image
 
 from sklearn.cluster import KMeans
@@ -88,13 +88,16 @@ def clustering(embeddings, k=2) -> list[list[int]]:
 
 
 def retrieve(sentences, images):
-  """Retrieve images for a list of sentences."""
+  """
+  Retrieve images for a list of sentences.
+  """
 
-  # HACK! hardcoded preprocessing
-  # Drop images whose width/height ratio larger that 2
-  s = [Image.open(f).size for f in images]
-  images = sorted([images[i]
-                   for i in range(len(images)) if s[i][0] / s[i][1] < 2])
+  set = [(Image.open(f).size, f) for f in images]
+  # HACK! Drop images whose width/height < 500
+  set = filter(lambda x: x[0][0] > 500 or x[0][1] > 500, set)
+  # HACK! Drop images whose width/height ratio larger that 2
+  set = filter(lambda x: x[0][0] / x[0][1] < 2, set)
+  images = sorted([x[1] for x in set])
 
   image_embeddings = ImageEmbeddings.instance().encode(images)
   text_embeddings = TextEmbeddings.instance().encode(sentences)
@@ -103,9 +106,12 @@ def retrieve(sentences, images):
   groups = clustering(image_embeddings, k=2)
   print(f'Clusters: {groups}')
 
-  # HACK! if merge two groups if not enough images in the majority group
+  # HACK! merge two groups if not enough images in the majority group
   if len(groups[0]) < len(sentences):
-    groups = [groups[0] + groups[1], []]
+    groups = [groups[0] + groups[1], groups[1]]
+  # HACK! raise error if not enough images in the majority group
+  if len(groups[0]) < len(sentences) * 0.8:
+    raise ValueError('Not enough images')
 
   kept = [images[i] for i in groups[0]]
   dropped = [images[i] for i in groups[1]]
@@ -119,6 +125,14 @@ def retrieve(sentences, images):
   seen = []
   selected = []
   for items in indices:
+    # HACK! shuffle the first two items
+    items = list(items)
+    items = random.sample(items[:2], 2) + items[2:]
+
+    # HACK! reuse images if not enough
+    if len(seen) == len(kept):
+      seen = []
+
     selected.append([])
     for i in items:
       if kept[i] not in seen:
