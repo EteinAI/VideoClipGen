@@ -91,7 +91,7 @@ def test_concat(assets, subtitles, tmp_path):
   with pytest.raises(RuntimeError) as e:
     concat(
       videos=videos,
-      size=(100, 100),
+      size=(100, -100),
       output=os.path.join(tmp_path, 'concat.mp4'),
       verbose=True,
     )

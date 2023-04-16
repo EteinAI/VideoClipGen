@@ -185,6 +185,10 @@ def concat(videos, output, subtitles=None, size=None, verbose=False):
       w=f'{width}',
       h='-2',
     ).filter(
+      'crop',
+      w=f'{width}',
+      h=f'min(ih,{height})',
+    ).filter(
       'pad',
       w=f'{width}',
       h=f'{height}',
