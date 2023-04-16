@@ -36,7 +36,7 @@ async def retrieve_image(params) -> list[list[str]]:
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
 
   # HACK! print model name to preloaded models
   print('Starting image retrieval activity...')

@@ -48,5 +48,5 @@ async def concat_video(params) -> tuple[str, str, list[str]]:
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
   run_activity([generate_video, concat_video], task_queue='video-generation')
