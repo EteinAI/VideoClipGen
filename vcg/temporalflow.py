@@ -41,6 +41,7 @@ with workflow.unsafe.imports_passed_through():
   from speechsynthesis.activity import synthesize_speech
   from videogen.activity import generate_video, concat_video
   from storage.activity import upload_oss
+  from storage.redis import create_client
 
 
 @workflow.defn
@@ -54,6 +55,7 @@ class VideoClipGen:
       'assets': {'status': 'pending', 'startTime': 0},
       'video': {'status': 'pending', 'startTime': 0},
     }
+    self._redis = create_client()
 
   def _set_progress(self, key: str, status: str, code: str = ''):
     '''
@@ -67,6 +69,10 @@ class VideoClipGen:
       self._progress[key]['endTime'] = round(workflow.time() * 1000)
     if code != '':
       self._progress[key]['code'] = code
+    self._redis.set(
+      f'vcg:progress:{self._progress["runId"]}',
+      json.dumps(self._progress),
+    )
 
   @workflow.query(name='progress')
   def query(self) -> str:
