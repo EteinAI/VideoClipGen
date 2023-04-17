@@ -31,5 +31,5 @@ async def synthesize_speech(params):
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
   run_activity([synthesize_speech], task_queue='speech-synthesis')

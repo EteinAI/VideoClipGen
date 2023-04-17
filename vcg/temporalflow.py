@@ -40,6 +40,8 @@ with workflow.unsafe.imports_passed_through():
   from textsummary.activity import summary_and_title
   from speechsynthesis.activity import synthesize_speech
   from videogen.activity import generate_video, concat_video
+  from storage.activity import upload_oss
+  from storage.redis import create_client
 
 
 @workflow.defn
@@ -53,6 +55,7 @@ class VideoClipGen:
       'assets': {'status': 'pending', 'startTime': 0},
       'video': {'status': 'pending', 'startTime': 0},
     }
+    self._redis = create_client()
 
   def _set_progress(self, key: str, status: str, code: str = ''):
     '''
@@ -66,6 +69,10 @@ class VideoClipGen:
       self._progress[key]['endTime'] = round(workflow.time() * 1000)
     if code != '':
       self._progress[key]['code'] = code
+    self._redis.set(
+      f'vcg:progress:{self._progress["runId"]}',
+      json.dumps(self._progress),
+    )
 
   @workflow.query(name='progress')
   def query(self) -> str:
@@ -230,10 +237,19 @@ class VideoClipGen:
       logging.exception(e.message)
       raise ApplicationError('Failed to concat videos.', e)
 
+    # TODO create ossflow, use temporalflow as child workflow
+    # upload to oss
+    params['video_url'] = await workflow.execute_activity(
+      'upload_oss',
+      params,
+      schedule_to_close_timeout=timedelta(seconds=180),
+      retry_policy=retry_policy,
+    )
+
     # update workflow status
     self._set_progress('video', 'success')
     self._progress['title'] = params['title']
-    self._progress['output'] = '/'.join([params['id'], params['output']])
+    self._progress['output'] = params['video_url']
 
     return params
 
@@ -246,8 +262,10 @@ async def main(client: Client, task_queue: str):
   worker = Worker(
     client,
     task_queue=task_queue,
-    activities=[prepare, parse_url, summary_and_title,
-                synthesize_speech, generate_video, concat_video],
+    activities=[
+      prepare, parse_url, summary_and_title, synthesize_speech,
+      generate_video, concat_video, upload_oss,
+    ],
     workflows=[VideoClipGen]
   )
   await worker.run()

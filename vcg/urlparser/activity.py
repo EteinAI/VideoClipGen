@@ -13,5 +13,5 @@ async def parse_url(params) -> tuple[list[str], list[str], str]:
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
   run_activity([parse_url], task_queue='url-parser')

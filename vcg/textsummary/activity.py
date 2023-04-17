@@ -71,5 +71,5 @@ async def summary_and_title(params) -> tuple[list[str], list[str], str]:
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
   run_activity([summarize, summary_and_title], task_queue='text-summary')

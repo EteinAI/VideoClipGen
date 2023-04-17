@@ -9,6 +9,7 @@ from urllib import parse
 import nls
 from dotenv import load_dotenv
 
+from utils.decorator import check_env
 from .subtitle import tokenize, wording, subtitle
 
 
@@ -22,18 +23,6 @@ tts_ws_url = 'wss://nls-gateway.cn-shanghai.aliyuncs.com/ws/v1'
 
 # HACK! hardcoded user preferences
 default_voice = 'zhiyan_emo'
-
-
-# decorator to verify environment variables
-def check_env(key):
-  if os.getenv(key) is None:
-    raise RuntimeError(f'{key} not found in env or in .env file')
-
-  def inner(func):
-    def wrapper(*args, **kwargs):
-      return func(*args, **kwargs)
-    return wrapper
-  return inner
 
 
 @check_env('ALI_ACCESSKEY_ID')

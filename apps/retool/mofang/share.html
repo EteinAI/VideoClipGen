@@ -43,7 +43,6 @@
   </div>
 
   <script>
-    const button = document.getElementById("btn_sharevideo");
     const shareVideo = async function (event) {
       // Prevent form default behavior
       event.preventDefault()
@@ -76,6 +75,7 @@
     };
 
     // Call the shareVideo function when the share button is clicked
+    const button = document.getElementById("btn_sharevideo");
     button.addEventListener("click", shareVideo);
   </script>
 </body>

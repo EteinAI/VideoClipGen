@@ -27,6 +27,9 @@ async def retrieve_image(params) -> list[list[str]]:
 
   retrieved: list[list[str]] = []
   for images in selected:
+    # break when encounter empty list
+    if len(images) == 0:
+      break
     retrieved.append([])
     for image in images:
       new_file = shutil.copy(image, selected_path)
@@ -36,7 +39,7 @@ async def retrieve_image(params) -> list[list[str]]:
 
 
 if __name__ == '__main__':
-  from workflow.base import run_activity
+  from utils.workflow import run_activity
 
   # HACK! print model name to preloaded models
   print('Starting image retrieval activity...')
